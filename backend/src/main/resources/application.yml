@@ -1,0 +1,9 @@
+spring:
+    datasource:
+        url: jdbc:postgresql://db.aopuueljjesljgrkzrxy.supabase.co:5432/postgres
+        username: postgres
+        password: 1122334455667788M@x
+
+aviationstack:
+    apikey: 7b2732c4e320ecedf9944f5e5ed746ac
+    url: https://api.aviationstack.com/v1
