@@ -1,35 +1,44 @@
 <template>
   <div>
     <v-container style="width: 500px; padding-top: 200px;">
-      <v-form
-          ref="form"
-          lazy-validation
-      >
-        <v-text-field
-            v-model="email"
-            :rules="emailRules"
-            label="E-mail"
-            required
-        />
+      <v-card
+          elevation="5"
+          outlined
+          shaped>
+        <v-card-title>FlightSchedule</v-card-title>
+        <v-card-subtitle>Login</v-card-subtitle>
+        <v-form
+            style="padding: 30px"
+            ref="form"
+            lazy-validation
+        >
+          <v-text-field
+              v-model="email"
+              :rules="emailRules"
+              label="E-mail"
+              required
+          />
 
-        <v-text-field
-            v-model="password"
-            :rules="passwordRules"
-            label="Password"
-            required
-        />
+          <v-text-field
+              v-model="password"
+              :rules="passwordRules"
+              label="Password"
+              required
+          />
 
-        <v-row style="justify-content: center; align-self: center">
-          <v-btn
-              color="primary"
-              class="mr-4"
-              @click="onSubmit"
-          >
-            Submit
-          </v-btn>
-        </v-row>
+          <v-row style="justify-content: center; align-self: center">
+            <v-btn
+                elevation="4"
+                outlined
+                raised
+                @click="onSubmit"
+            >
+              Submit
+            </v-btn>
+          </v-row>
 
-      </v-form>
+        </v-form>
+      </v-card>
     </v-container>
   </div>
 </template>
