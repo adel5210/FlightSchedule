@@ -11,9 +11,10 @@ import java.time.OffsetDateTime;
 @Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
-@Builder
+@Builder(toBuilder = true)
 public class UserProfileDao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

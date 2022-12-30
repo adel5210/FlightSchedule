@@ -1,6 +1,8 @@
 package com.adel.flightschedule;
 
+import com.adel.flightschedule.userprofile.dto.UserProfileDto;
 import com.adel.flightschedule.userprofile.service.EmailService;
+import com.adel.flightschedule.userprofile.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -11,12 +13,17 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class InitTestRunService implements CommandLineRunner {
 
-//    private final EmailService emailService;
+//    private final UserProfileService userProfileService;
 
     @Override
     public void run(String... args) throws Exception {
-//        emailService.sendMessage("axsadek@gmail.com",
-//                "TEST_FLIGHT_SCHED",
-//                "TEST123");
+
+//        userProfileService.signUp(UserProfileDto.builder()
+//                .email("axsadek@gmail.com")
+//                .firstName("Adel")
+//                .lastName("Albediwy")
+//                .password("1234")
+//                .build());
+
     }
 }

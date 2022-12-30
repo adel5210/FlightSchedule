@@ -18,7 +18,6 @@ public class OTPServiceImpl implements OTPService {
     private final Cache<Long, Integer> mainOtp = new Cache2kBuilder<Long, Integer>() {
     }
             .expireAfterWrite(5, TimeUnit.MINUTES)
-            .refreshAhead(true)
             .build();
 
     @Override
