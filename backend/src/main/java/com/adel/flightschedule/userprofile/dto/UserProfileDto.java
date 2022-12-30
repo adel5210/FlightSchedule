@@ -17,5 +17,6 @@ public class UserProfileDto {
     private Integer otp;
     private String username;
     private String token;
+    private String newPassword;
 
 }

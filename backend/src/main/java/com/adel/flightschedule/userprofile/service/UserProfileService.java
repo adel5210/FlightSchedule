@@ -17,4 +17,6 @@ public interface UserProfileService {
     AuthResponse signOut(UserProfileDto userProfileDto) throws UserProfileException;
 
     AuthResponse refreshToken(UserProfileDto userProfileDto) throws UserProfileException;
+
+    void resetPassword(UserProfileDto userProfileDto) throws UserProfileException;
 }

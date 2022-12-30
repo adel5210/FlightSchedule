@@ -179,5 +179,24 @@ public class UserProfileServiceImpl implements UserProfileService {
         return null;
     }
 
+    @Override
+    public void resetPassword(UserProfileDto userProfileDto) throws UserProfileException {
+        ValidatorUtil.builder()
+                .param("Username", userProfileDto.getUsername()).notNull()
+                .param("Password", userProfileDto.getPassword()).notNull()
+                .param("new password", userProfileDto.getNewPassword()).notNull();
+
+        final UserProfileDao userProfile = userProfileDaoRepository.findByUsername(userProfileDto.getUsername());
+
+        if (null == userProfile) {
+            throw new UserProfileException("Unknown user attempt reset password");
+        }
+
+        userProfileDaoRepository.saveAndFlush(userProfile.toBuilder()
+                .password(passwordEncoder.encode(userProfileDto.getNewPassword()))
+                .lastTimestamp(OffsetDateTime.now())
+                .build());
+    }
+
 
 }

@@ -58,4 +58,10 @@ public class AuthenticationController {
         return ResponseEntity.ok(userProfileService.refreshToken(userProfileDto));
     }
 
+    @PostMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(@RequestBody UserProfileDto userProfileDto) throws UserProfileException {
+        userProfileService.resetPassword(userProfileDto);
+        return ResponseEntity.ok(null);
+    }
+
 }
