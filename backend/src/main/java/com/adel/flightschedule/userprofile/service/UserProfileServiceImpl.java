@@ -1,5 +1,8 @@
 package com.adel.flightschedule.userprofile.service;
 
+import com.adel.flightschedule.security.dto.AuthResponse;
+import com.adel.flightschedule.security.model.UserDetailsImpl;
+import com.adel.flightschedule.security.service.AuthTokenService;
 import com.adel.flightschedule.userprofile.dto.UserProfileDto;
 import com.adel.flightschedule.userprofile.exception.UserProfileException;
 import com.adel.flightschedule.userprofile.model.UserProfileDao;
@@ -7,6 +10,10 @@ import com.adel.flightschedule.userprofile.repository.UserProfileDaoRepository;
 import com.adel.flightschedule.utils.ValidatorUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +29,8 @@ public class UserProfileServiceImpl implements UserProfileService {
     private final OTPService otpService;
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final AuthTokenService authTokenService;
 
     @Override
     @Transactional
@@ -91,6 +100,27 @@ public class UserProfileServiceImpl implements UserProfileService {
                 .isRegistered(true)
                 .build());
 
+    }
+
+    @Override
+    public AuthResponse signIn(UserProfileDto userProfileDto) {
+
+        ValidatorUtil.builder()
+                .param("Username", userProfileDto.getUsername()).notNull()
+                .param("Password", userProfileDto.getPassword()).notNull();
+
+        final Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(userProfileDto.getUsername(), userProfileDto.getPassword())
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        final UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+
+
+
+        return null;
     }
 
 }
