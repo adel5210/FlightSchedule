@@ -2,6 +2,7 @@
   <div>
     <v-container style="width: 500px; padding-top: 200px;">
       <v-card
+          v-if="isStage1"
           elevation="5"
           outlined
           shaped>
@@ -51,7 +52,32 @@
                 elevation="4"
                 outlined
                 raised
-                @click="onSubmit"
+                @click="onSubmitStage1"
+            >
+              Submit
+            </v-btn>
+          </v-row>
+        </v-form>
+      </v-card>
+      <v-card
+          v-if="isStage2"
+          elevation="5"
+          outlined
+          shaped>
+        <v-card-title>FlightSchedule</v-card-title>
+        <v-card-subtitle>Enter One-time password</v-card-subtitle>
+        <v-card-text>We've sent a ont-time password to your email address at {{ encryptEmail }}</v-card-text>
+        <v-form
+            style="padding: 30px"
+            ref="form"
+            lazy-validation
+        >
+          <v-row style="justify-content: center; align-self: center">
+            <v-btn
+                elevation="4"
+                outlined
+                raised
+                @click="onSubmitStage2"
             >
               Submit
             </v-btn>
@@ -63,10 +89,14 @@
 </template>
 
 <script>
+import userProfileHttp from "@/api/userProfileHttp";
+
 export default {
   name: "SignUpComponent",
   data() {
     return {
+      isStage1: true,
+      isStage2: false,
       valid: false,
       firstname: '',
       lastname: '',
@@ -88,8 +118,34 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
+    onSubmitStage1() {
+      userProfileHttp.signupSubmit().then(res => {
 
+      })
+      .catch(err => {
+
+      });
+    },
+    onSubmitStage2() {
+
+    },
+
+  },
+  computed: {
+    encryptEmail() {
+      let tempEmail = ''
+      let hasPassedAbbreviate = false;
+      for (let i = 0; i < this.email.length; i++) {
+        if (this.email[i] === '@') {
+          hasPassedAbbreviate = true;
+        }
+        if (i === 0 || hasPassedAbbreviate) {
+          tempEmail += this.email[i];
+        } else {
+          tempEmail += '*';
+        }
+      }
+      return tempEmail;
     }
   }
 }

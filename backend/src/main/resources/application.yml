@@ -1,8 +1,21 @@
+server:
+    port: 8081
 spring:
     datasource:
         url: jdbc:postgresql://db.aopuueljjesljgrkzrxy.supabase.co:5432/postgres
         username: postgres
         password: 1122334455667788M@x
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: go.test.sadek@gmail.com
+        password: aolxtoqvkhlwcfep #1122334455667788Mx
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
 
 aviationstack:
     apikey: 7b2732c4e320ecedf9944f5e5ed746ac
