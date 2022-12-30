@@ -45,10 +45,13 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         final List<String> permittedHttp = new ArrayList<>();
-        permittedHttp.add("/api/v1/login");
+        permittedHttp.add("/api/v1/signin");
+        permittedHttp.add("/api/v1/signout");
         permittedHttp.add("/api/v1/signup");
         permittedHttp.add("/api/v1/resend-otp");
         permittedHttp.add("/api/v1/validate-otp");
+        permittedHttp.add("/api/v1/refresh-token");
+        permittedHttp.add("/api/v1/reset-password");
 
         http
                 .cors().and()

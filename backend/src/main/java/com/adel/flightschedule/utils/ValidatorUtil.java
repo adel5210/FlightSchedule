@@ -1,10 +1,6 @@
 package com.adel.flightschedule.utils;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.util.ObjectUtils;
-
-import java.util.Map;
 
 public class ValidatorUtil {
 
