@@ -13,4 +13,8 @@ public interface UserProfileService {
     void validateRegistration(final UserProfileDto userProfileDto) throws UserProfileException;
 
     AuthResponse signIn(UserProfileDto userProfileDto);
+
+    AuthResponse signOut(UserProfileDto userProfileDto) throws UserProfileException;
+
+    AuthResponse refreshToken(UserProfileDto userProfileDto) throws UserProfileException;
 }

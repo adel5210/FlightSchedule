@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,38 +21,46 @@ public class AuthTokenService {
     private final JwtPropertiesConfig jwtPropertiesConfig;
     private final AuthTokenRepository authTokenRepository;
     private final UserProfileDaoRepository userProfileDaoRepository;
+    private final JwtTokenUtil jwtTokenUtil;
 
     @Transactional(readOnly = true)
-    public AuthToken findByToken(final String token){
+    public Optional<AuthToken> findByToken(final String token){
         return authTokenRepository.findByToken(token);
     }
 
     @Transactional
-    public AuthToken createRefreshToken(final Long userId){
+    public AuthToken createRefreshToken(final String username){
 
-        final UserProfileDao userProfile = userProfileDaoRepository.findByUserId(userId);
+        final UserProfileDao userProfile = userProfileDaoRepository.findByUsername(username);
 
         final AuthToken authToken = AuthToken.builder()
                 .userProfile(userProfile)
                 .expiryDate(Instant.now().plusMillis(jwtPropertiesConfig.getRefreshExpireMs()))
-                .token(UUID.randomUUID().toString())
+                .refreshToken(UUID.randomUUID().toString())
+                .accessToken(jwtTokenUtil.generateToken(userProfile.getUsername()))
                 .build();
 
         return authTokenRepository.save(authToken);
     }
 
-    public AuthToken verifyExpiry(final AuthToken token) throws TokenRefreshException {
+    public AuthToken verifyExpiryAndRefresh(final AuthToken token) throws TokenRefreshException {
+
         if(token.getExpiryDate().compareTo(Instant.now()) < 0){
             authTokenRepository.delete(token);
             throw new TokenRefreshException("Refresh token has expired");
         }
-        return token;
+
+        return authTokenRepository.save(token.toBuilder()
+                .expiryDate(Instant.now().plusMillis(jwtPropertiesConfig.getRefreshExpireMs()))
+                .refreshToken(UUID.randomUUID().toString())
+                .accessToken(jwtTokenUtil.generateToken(token.getUserProfile().getUsername()))
+                .build());
     }
 
     @Transactional
-    public int deleteByUserId(final Long userId){
-        final UserProfileDao userProfile = userProfileDaoRepository.findByUserId(userId);
-        return authTokenRepository.deleteByUserProfile_Username(userProfile.getUsername());
+    public void deleteByUsername(final String username){
+        final UserProfileDao userProfile = userProfileDaoRepository.findByUsername(username);
+        authTokenRepository.deleteByUserProfile_Username(userProfile.getUsername());
     }
 
 }

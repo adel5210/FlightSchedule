@@ -47,4 +47,15 @@ public class AuthenticationController {
     public ResponseEntity<AuthResponse> signIn(@RequestBody UserProfileDto userProfileDto){
         return ResponseEntity.ok(userProfileService.signIn(userProfileDto));
     }
+
+    @PostMapping("/signout")
+    public ResponseEntity<AuthResponse> signOut(@RequestBody UserProfileDto userProfileDto) throws UserProfileException {
+        return ResponseEntity.ok(userProfileService.signOut(userProfileDto));
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<AuthResponse> refreshToken(@RequestBody UserProfileDto userProfileDto) throws UserProfileException {
+        return ResponseEntity.ok(userProfileService.refreshToken(userProfileDto));
+    }
+
 }

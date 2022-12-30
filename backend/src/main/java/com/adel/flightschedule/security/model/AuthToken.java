@@ -32,10 +32,13 @@ public class AuthToken {
     private UserProfileDao userProfile;
 
     @Column(name = "token", nullable = false)
-    private String token;
+    private String refreshToken;
 
     @Column(name = "expiry_date", nullable = false)
     private Instant expiryDate;
+
+    @Transient
+    private String accessToken;
 
 
 }

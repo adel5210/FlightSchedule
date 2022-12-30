@@ -1,6 +1,8 @@
 package com.adel.flightschedule.userprofile.service;
 
 import com.adel.flightschedule.security.dto.AuthResponse;
+import com.adel.flightschedule.security.exception.TokenRefreshException;
+import com.adel.flightschedule.security.model.AuthToken;
 import com.adel.flightschedule.security.model.UserDetailsImpl;
 import com.adel.flightschedule.security.service.AuthTokenService;
 import com.adel.flightschedule.userprofile.dto.UserProfileDto;
@@ -87,11 +89,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 
         final UserProfileDao profileDao = userProfileDaoRepository.findByUsername(userProfileDto.getUsername());
 
-        if(null == profileDao){
+        if (null == profileDao) {
             throw new UserProfileException("Email not yet registered");
         }
 
-        if(!otpService.isValidOTP(profileDao.getId(), userProfileDto.getOtp())){
+        if (!otpService.isValidOTP(profileDao.getId(), userProfileDto.getOtp())) {
             throw new UserProfileException("Incorrect OTP");
         }
 
@@ -117,10 +119,65 @@ public class UserProfileServiceImpl implements UserProfileService {
 
         final UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
+        final AuthToken authToken = authTokenService.createRefreshToken(userDetails.getUsername());
 
+        return AuthResponse.builder()
+                .username(userDetails.getUsername())
+                .accessToken(authToken.getAccessToken())
+                .refreshToken(authToken.getRefreshToken())
+                .build();
+    }
 
+    @Override
+    public AuthResponse signOut(UserProfileDto userProfileDto) throws UserProfileException {
+        ValidatorUtil.builder()
+                .param("Username", userProfileDto.getUsername()).notNull();
+
+        final Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!principle.toString().equals("anonymousUser")) {
+            final String username = ((UserDetailsImpl) principle).getUsername();
+            authTokenService.deleteByUsername(username);
+            return AuthResponse.builder()
+                    .username(userProfileDto.getUsername())
+                    .build();
+        }
+
+        throw new UserProfileException("Anonymous user sign-out attempt");
+
+    }
+
+    @Override
+    public AuthResponse refreshToken(UserProfileDto userProfileDto) throws UserProfileException {
+        ValidatorUtil.builder()
+                .param("Username", userProfileDto.getUsername()).notNull()
+                .param("Token", userProfileDto.getToken()).notNull();
+
+        final UserProfileDao userProfile = userProfileDaoRepository.findByUsername(userProfileDto.getUsername());
+
+        if (null == userProfile) {
+            throw new UserProfileException("Unknown user attempt refresh token");
+        }
+
+        if (null != userProfileDto.getToken() && userProfileDto.getToken().length() > 0) {
+            return authTokenService.findByToken(userProfileDto.getToken())
+                    .map(m -> {
+                        try {
+                            return authTokenService.verifyExpiryAndRefresh(m);
+                        } catch (TokenRefreshException e) {
+                            e.printStackTrace();
+                            return null;
+                        }
+                    })
+                    .map(m -> AuthResponse.builder()
+                            .username(m.getUserProfile().getUsername())
+                            .accessToken(m.getAccessToken())
+                            .refreshToken(m.getRefreshToken())
+                            .build())
+                    .orElseThrow(() -> new UserProfileException("Token not exist in db"));
+        }
 
         return null;
     }
+
 
 }
