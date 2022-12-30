@@ -31,22 +31,38 @@ public class UserProfileServiceImpl implements UserProfileService {
                 .param("First name", userProfileDto.getFirstName()).notNull()
                 .param("Last name", userProfileDto.getLastName()).notNull()
                 .param("Email", userProfileDto.getEmail()).notNull()
+                .param("Username", userProfileDto.getUsername()).notNull()
                 .param("Password", userProfileDto.getPassword()).notNull();
 
-        final UserProfileDao profileDao = userProfileDaoRepository.saveAndFlush(UserProfileDao.builder()
+        userProfileDaoRepository.saveAndFlush(UserProfileDao.builder()
                 .email(userProfileDto.getEmail())
                 .firstName(userProfileDto.getFirstName())
                 .lastName(userProfileDto.getLastName())
                 .password(passwordEncoder.encode(userProfileDto.getPassword()))
                 .isRegistered(false)
+                .createdAt(OffsetDateTime.now())
+                .lastTimestamp(OffsetDateTime.now())
+                .username(userProfileDto.getUsername())
                 .build());
 
+        sendOTP(userProfileDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public void sendOTP(UserProfileDto userProfileDto) {
+        ValidatorUtil.builder()
+                .param("Username", userProfileDto.getUsername()).notNull();
+
+        final UserProfileDao profileDao = userProfileDaoRepository.findByUsername(userProfileDto.getUsername());
+
         final Integer generatedOtp = otpService.generateOTP(profileDao.getId());
-        final StringBuilder message = new StringBuilder("Hello ").append(userProfileDto.getFirstName()).append(", \n")
+
+        final StringBuilder message = new StringBuilder("Hi ").append(profileDao.getFirstName()).append(", \n")
                 .append("Please enter the following OTP to the site.\n\n")
                 .append("Your verification code: ").append(generatedOtp);
 
-        emailService.sendMessage(userProfileDto.getEmail(),
+        emailService.sendMessage(profileDao.getEmail(),
                 "Dummy FlightSchedule",
                 message.toString());
 
@@ -57,10 +73,10 @@ public class UserProfileServiceImpl implements UserProfileService {
     public void validateRegistration(UserProfileDto userProfileDto) throws UserProfileException {
 
         ValidatorUtil.builder()
-                .param("Email", userProfileDto.getEmail()).notNull()
+                .param("Username", userProfileDto.getUsername()).notNull()
                 .param("OTP", userProfileDto.getOtp()).notNull();
 
-        final UserProfileDao profileDao = userProfileDaoRepository.findByEmail(userProfileDto.getEmail());
+        final UserProfileDao profileDao = userProfileDaoRepository.findByUsername(userProfileDto.getUsername());
 
         if(null == profileDao){
             throw new UserProfileException("Email not yet registered");

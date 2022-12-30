@@ -27,23 +27,22 @@ public class UserProfileDao {
     @Column(name = "last_timestamp")
     private OffsetDateTime lastTimestamp;
 
-    @Lob
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Lob
     @Column(name = "first_name")
     private String firstName;
 
-    @Lob
     @Column(name = "last_name")
     private String lastName;
 
-    @Lob
     @Column(name = "password")
     private String password;
 
     @Column(name = "is_registered")
     private Boolean isRegistered;
+
+    @Column(name = "username")
+    private String username;
 
 }

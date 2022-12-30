@@ -20,3 +20,8 @@ spring:
 aviationstack:
     apikey: 7b2732c4e320ecedf9944f5e5ed746ac
     url: https://api.aviationstack.com/v1
+
+jwt:
+    secretHash: jwthash@123$flight$schedule
+    accessExpireMs: 3600000
+    refreshExpireMs: 86400000

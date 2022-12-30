@@ -5,7 +5,7 @@
           elevation="5"
           outlined
           shaped>
-        <v-card-title>FlightSchedule</v-card-title>
+        <v-card-title>Dummy FlightSchedule</v-card-title>
         <v-card-subtitle>Login</v-card-subtitle>
         <v-form
             style="padding: 30px"

@@ -6,7 +6,7 @@
           elevation="5"
           outlined
           shaped>
-        <v-card-title>FlightSchedule</v-card-title>
+        <v-card-title>Dummy FlightSchedule</v-card-title>
         <v-card-subtitle>Sign-Up</v-card-subtitle>
         <v-form
             style="padding: 30px"
@@ -64,7 +64,7 @@
           elevation="5"
           outlined
           shaped>
-        <v-card-title>FlightSchedule</v-card-title>
+        <v-card-title>Dummy FlightSchedule</v-card-title>
         <v-card-subtitle>Enter One-time password</v-card-subtitle>
         <v-card-text>We've sent a ont-time password to your email address at {{ encryptEmail }}</v-card-text>
         <v-form
@@ -120,11 +120,11 @@ export default {
   methods: {
     onSubmitStage1() {
       userProfileHttp.signupSubmit().then(res => {
-
+        console.log(res);
       })
-      .catch(err => {
-
-      });
+          .catch(err => {
+            console.error(err);
+          });
     },
     onSubmitStage2() {
 

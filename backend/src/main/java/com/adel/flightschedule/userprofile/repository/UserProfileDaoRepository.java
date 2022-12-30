@@ -9,5 +9,9 @@ public interface UserProfileDaoRepository extends JpaRepository<UserProfileDao, 
     @Query("select u from UserProfileDao u where u.email = ?1")
     UserProfileDao findByEmail(String email);
 
+    @Query("select u from UserProfileDao u where u.username = ?1")
+    UserProfileDao findByUsername(String username);
+
+
 
 }

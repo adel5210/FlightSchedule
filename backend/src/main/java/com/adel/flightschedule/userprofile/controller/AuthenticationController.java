@@ -23,8 +23,15 @@ public class AuthenticationController {
         return ResponseEntity.ok(null);
     }
 
-    @PostMapping("/api/v1/otp")
-    public ResponseEntity<Void> otp(@RequestBody UserProfileDto userProfileDto) throws UserProfileException {
+    @PostMapping("/api/v1/resend-otp")
+    public ResponseEntity<Void> resendOtp(@RequestBody UserProfileDto userProfileDto) {
+        log.info("Resend OTP for user: "+userProfileDto);
+        userProfileService.sendOTP(userProfileDto);
+        return ResponseEntity.ok(null);
+    }
+
+    @PostMapping("/api/v1/validate-otp")
+    public ResponseEntity<Void> validateOtp(@RequestBody UserProfileDto userProfileDto) throws UserProfileException {
         log.info("Check OTP for user: "+userProfileDto);
         userProfileService.validateRegistration(userProfileDto);
         return ResponseEntity.ok(null);

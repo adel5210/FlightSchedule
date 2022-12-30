@@ -7,6 +7,8 @@ public interface UserProfileService {
 
     void signUp(final UserProfileDto userProfileDto);
 
+    void sendOTP(final UserProfileDto userProfileDto);
+
     void validateRegistration(final UserProfileDto userProfileDto) throws UserProfileException;
 
 }
