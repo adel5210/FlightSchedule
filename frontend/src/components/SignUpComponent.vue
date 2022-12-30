@@ -27,6 +27,13 @@
           />
 
           <v-text-field
+              v-model="username"
+              :rules="nameRules"
+              label="Username"
+              required
+          />
+
+          <v-text-field
               v-model="email"
               :rules="emailRules"
               label="E-mail"
@@ -90,7 +97,7 @@
 
 <script>
 import userProfileHttp from "@/api/userProfileHttp";
-
+import UserProfileDto from "@/model/userProfileDto";
 export default {
   name: "SignUpComponent",
   data() {
@@ -100,6 +107,7 @@ export default {
       valid: false,
       firstname: '',
       lastname: '',
+      username: '',
       email: '',
       password: '',
       password2: '',
@@ -114,11 +122,15 @@ export default {
       passwordRules: [
         v => !!v || 'Password is required',
         v => v.length >= 8 || 'Min 8 characters',
+        v => v === this.password || 'Mismatch password'
       ],
     }
   },
   methods: {
     onSubmitStage1() {
+      let x = new UserProfileDto();
+      console.log(x);
+
       userProfileHttp.signupSubmit().then(res => {
         console.log(res);
       })
