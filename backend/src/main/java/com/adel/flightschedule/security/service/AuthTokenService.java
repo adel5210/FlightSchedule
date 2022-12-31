@@ -49,22 +49,24 @@ public class AuthTokenService {
                 .refreshToken(UUID.randomUUID().toString())
                 .accessToken(jwtTokenUtil.generateToken(userProfile.getUsername()))
                 .build();
-
-        return authTokenRepository.save(authToken);
+        authTokenRepository.save(authToken);
+        return authToken;
     }
 
-    public AuthToken verifyExpiryAndRefresh(final AuthToken token) throws TokenRefreshException {
+    public AuthToken verifyExpiryAndRefresh(AuthToken token) throws TokenRefreshException {
 
         if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
             authTokenRepository.delete(token);
             throw new TokenRefreshException("Refresh token has expired");
         }
 
-        return authTokenRepository.save(token.toBuilder()
+        token = token.toBuilder()
                 .expiryDate(Instant.now().plusMillis(jwtPropertiesConfig.getRefreshExpireMs()))
                 .refreshToken(UUID.randomUUID().toString())
                 .accessToken(jwtTokenUtil.generateToken(token.getUserProfile().getUsername()))
-                .build());
+                .build();
+        authTokenRepository.save(token);
+        return token;
     }
 
     @Transactional

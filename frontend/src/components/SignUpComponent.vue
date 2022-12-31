@@ -44,6 +44,7 @@
               v-model="password"
               :rules="passwordRules"
               label="Password"
+              type="password"
               required
           />
 
@@ -51,6 +52,7 @@
               v-model="password2"
               :rules="passwordRules"
               label="Confirm password"
+              type="password"
               required
           />
 
@@ -73,12 +75,20 @@
           shaped>
         <v-card-title>Dummy FlightSchedule</v-card-title>
         <v-card-subtitle>Enter One-time password</v-card-subtitle>
-        <v-card-text>We've sent a ont-time password to your email address at {{ encryptEmail }}</v-card-text>
+        <v-card-text>We've sent a one-time password to your email address at {{ encryptEmail }}</v-card-text>
         <v-form
             style="padding: 30px"
             ref="form"
             lazy-validation
         >
+          <v-row
+              style="justify-content: center; align-self: center; width: 64px;">
+            <v-text-field
+                style="padding-left: 5px; padding-right: 5px;text-align: center"
+                required
+                @keydown="limitOtp"
+                v-model="otp"/>
+          </v-row>
           <v-row style="justify-content: center; align-self: center">
             <v-btn
                 elevation="4"
@@ -98,6 +108,7 @@
 <script>
 import userProfileHttp from "@/api/userProfileHttp";
 import UserProfileDto from "@/model/userProfileDto";
+
 export default {
   name: "SignUpComponent",
   data() {
@@ -111,6 +122,7 @@ export default {
       email: '',
       password: '',
       password2: '',
+      otp: '',
       nameRules: [
         v => !!v || 'Name is required',
         v => v.length <= 10 || 'Name must be less than 10 characters',
@@ -124,24 +136,44 @@ export default {
         v => v.length >= 8 || 'Min 8 characters',
         v => v === this.password || 'Mismatch password'
       ],
+      numberRules: []
     }
   },
   methods: {
     onSubmitStage1() {
-      let x = new UserProfileDto();
-      console.log(x);
+      let submitData = new UserProfileDto();
+      submitData.firstName = this.firstname;
+      submitData.lastName = this.lastname;
+      submitData.email = this.email;
+      submitData.username = this.username;
+      submitData.password = this.password;
 
-      userProfileHttp.signup().then(res => {
+      userProfileHttp.signup(submitData).then(res => {
         console.log(res);
+        this.isStage1 = false;
+        this.isStage2 = true;
       })
-          .catch(err => {
-            console.error(err);
-          });
+      .catch(err => {
+        console.error(err);
+      });
     },
     onSubmitStage2() {
+      let submitData = new UserProfileDto();
+      submitData.username = this.username;
+      submitData.otp = this.otp;
 
+      userProfileHttp.validateOtp(submitData).then(res => {
+        console.log(res);
+        this.$router.push('login');
+      })
+      .catch(err => {
+        console.error(err);
+      });
     },
-
+    limitOtp() {
+      this.otp = /^\d+$/.test(this.otp) ? this.otp : '';
+      this.otp = this.otp.length > 5 ? this.otp.substring(0, 5) : this.otp;
+    }
   },
   computed: {
     encryptEmail() {

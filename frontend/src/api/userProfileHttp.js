@@ -2,10 +2,10 @@ import httpCommon from "@/api/httpCommon";
 
 const AUTH_API = '/api/v1/auth';
 const KEY_TOKEN_PROPERTY = 'data';
-const data = JSON.parse(localStorage.getItem(KEY_TOKEN_PROPERTY));
 
 class UserProfileHttp {
     authHeader() {
+        const data = JSON.parse(localStorage.getItem(KEY_TOKEN_PROPERTY));
         if (data && data.accessToken) {
             return {
                 Authorization: 'Bearer ' + data.accessToken,
@@ -18,6 +18,10 @@ class UserProfileHttp {
 
     signup(data) {
         return httpCommon.post(AUTH_API + "/signup", JSON.stringify(data));
+    }
+
+    validateOtp(data) {
+        return httpCommon.post(AUTH_API + "/validate-otp", JSON.stringify(data));
     }
 
     resendOtp(data) {

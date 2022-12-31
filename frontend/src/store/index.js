@@ -30,8 +30,9 @@ export default new Vuex.Store({
         login({commit}, data) {
             return UserProfileHttp.signIn(data)
                 .then(resp => {
+                    let responseData = JSON.stringify(resp.data);
                     if(resp.data.accessToken){
-                        localStorage.setItem(KEY_TOKEN_PROPERTY, resp.data);
+                        localStorage.setItem(KEY_TOKEN_PROPERTY, responseData);
                     }
                     commit('loginPass', resp.data);
                     return Promise.resolve(resp.data);

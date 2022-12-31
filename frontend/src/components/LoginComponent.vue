@@ -23,6 +23,7 @@
               v-model="user.password"
               :rules="passwordRules"
               label="Password"
+              type="password"
               required
           />
 
@@ -79,7 +80,7 @@ export default {
     }
   },
   created() {
-    if(this.loggedIn()){
+    if(this.loggedIn){
       this.$router.push('dashboard');
     }
   }
