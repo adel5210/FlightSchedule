@@ -6,8 +6,6 @@ const data = JSON.parse(localStorage.getItem(KEY_TOKEN_PROPERTY));
 
 class UserProfileHttp {
     authHeader() {
-
-
         if (data && data.accessToken) {
             return {
                 Authorization: 'Bearer ' + data.accessToken,
@@ -16,9 +14,7 @@ class UserProfileHttp {
         } else {
             return {}
         }
-
     }
-
 
     signup(data) {
         return httpCommon.post(AUTH_API + "/signup", JSON.stringify(data));

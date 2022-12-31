@@ -1,5 +1,6 @@
 package com.adel.flightschedule.security.service;
 
+import com.adel.flightschedule.security.model.UserDetailsImpl;
 import com.adel.flightschedule.userprofile.model.UserProfileDao;
 import com.adel.flightschedule.userprofile.repository.UserProfileDaoRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +26,12 @@ public class JwtUserDetailService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found :"+username);
         }
 
-        return new User(userProfile.getUsername(),
-                        userProfile.getPassword(),
-                        Collections.emptyList());
+        return UserDetailsImpl.builder()
+                .id(userProfile.getId())
+                .username(userProfile.getUsername())
+                .password(userProfile.getPassword())
+                .authorities(Collections.emptyList())
+                .email(userProfile.getEmail())
+                .build();
     }
 }

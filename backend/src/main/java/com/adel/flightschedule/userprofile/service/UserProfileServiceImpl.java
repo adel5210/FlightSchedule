@@ -105,7 +105,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public AuthResponse signIn(UserProfileDto userProfileDto) {
+    public AuthResponse signIn(UserProfileDto userProfileDto) throws UserProfileException {
 
         ValidatorUtil.builder()
                 .param("Username", userProfileDto.getUsername()).notNull()

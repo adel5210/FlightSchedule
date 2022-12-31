@@ -2,6 +2,7 @@ package com.adel.flightschedule.security.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,21 +11,20 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.Collections;
 
-@Service
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class UserDetailsImpl implements UserDetails {
 
     private Long id;
     private String username;
     private String email;
-
-    @JsonIgnore
-    private String password;
+    @JsonIgnore private String password;
+    private Collection<? extends GrantedAuthority> authorities;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return authorities;
     }
 
     public Long getId() {

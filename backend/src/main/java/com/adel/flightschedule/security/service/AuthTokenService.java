@@ -4,6 +4,7 @@ import com.adel.flightschedule.security.config.JwtPropertiesConfig;
 import com.adel.flightschedule.security.exception.TokenRefreshException;
 import com.adel.flightschedule.security.model.AuthToken;
 import com.adel.flightschedule.security.repository.AuthTokenRepository;
+import com.adel.flightschedule.userprofile.exception.UserProfileException;
 import com.adel.flightschedule.userprofile.model.UserProfileDao;
 import com.adel.flightschedule.userprofile.repository.UserProfileDaoRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,16 +26,24 @@ public class AuthTokenService {
     private final JwtTokenUtil jwtTokenUtil;
 
     @Transactional(readOnly = true)
-    public Optional<AuthToken> findByToken(final String token){
+    public Optional<AuthToken> findByToken(final String token) {
         return authTokenRepository.findByToken(token);
     }
 
     @Transactional
-    public AuthToken createRefreshToken(final String username){
+    public AuthToken createRefreshToken(final String username) throws UserProfileException {
 
         final UserProfileDao userProfile = userProfileDaoRepository.findByUsername(username);
 
-        final AuthToken authToken = AuthToken.builder()
+        if (null == userProfile) {
+            throw new UserProfileException("User not found");
+        }
+
+        AuthToken authToken = authTokenRepository.findByUserProfile_Username(userProfile.getUsername())
+                .orElse(AuthToken.builder().build());
+
+        authToken = authToken.toBuilder()
+                .lastTimestamp(OffsetDateTime.now())
                 .userProfile(userProfile)
                 .expiryDate(Instant.now().plusMillis(jwtPropertiesConfig.getRefreshExpireMs()))
                 .refreshToken(UUID.randomUUID().toString())
@@ -45,7 +55,7 @@ public class AuthTokenService {
 
     public AuthToken verifyExpiryAndRefresh(final AuthToken token) throws TokenRefreshException {
 
-        if(token.getExpiryDate().compareTo(Instant.now()) < 0){
+        if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
             authTokenRepository.delete(token);
             throw new TokenRefreshException("Refresh token has expired");
         }
@@ -58,7 +68,7 @@ public class AuthTokenService {
     }
 
     @Transactional
-    public void deleteByUsername(final String username){
+    public void deleteByUsername(final String username) {
         final UserProfileDao userProfile = userProfileDaoRepository.findByUsername(username);
         authTokenRepository.deleteByUserProfile_Username(userProfile.getUsername());
     }

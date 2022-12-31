@@ -1,12 +1,16 @@
 package com.adel.flightschedule.security.config;
 
+import com.adel.flightschedule.security.model.UserDetailsImpl;
 import com.adel.flightschedule.security.service.JwtAuthenticationEntryPoint;
 import com.adel.flightschedule.security.service.JwtRequestFilter;
+import com.adel.flightschedule.security.service.JwtUserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,6 +30,7 @@ public class WebSecurityConfig {
 
     private final JwtRequestFilter jwtRequestFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtUserDetailService jwtUserDetailService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -33,25 +38,28 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity httpSecurity,
-                                                       PasswordEncoder passwordEncoder,
-                                                       UserDetailsService userDetailsService) throws Exception {
-        return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder)
-                .and().build();
+    public DaoAuthenticationProvider daoAuthenticationProvider(){
+        final DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(jwtUserDetailService);
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        return daoAuthenticationProvider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         final List<String> permittedHttp = new ArrayList<>();
-        permittedHttp.add("/api/v1/signin");
-        permittedHttp.add("/api/v1/signout");
-        permittedHttp.add("/api/v1/signup");
-        permittedHttp.add("/api/v1/resend-otp");
-        permittedHttp.add("/api/v1/validate-otp");
-        permittedHttp.add("/api/v1/refresh-token");
-        permittedHttp.add("/api/v1/reset-password");
+        permittedHttp.add("/api/v1/auth/signin");
+        permittedHttp.add("/api/v1/auth/signout");
+        permittedHttp.add("/api/v1/auth/signup");
+        permittedHttp.add("/api/v1/auth/resend-otp");
+        permittedHttp.add("/api/v1/auth/validate-otp");
+        permittedHttp.add("/api/v1/auth/refresh-token");
+        permittedHttp.add("/api/v1/auth/reset-password");
 
         http
                 .cors().and()
@@ -64,6 +72,7 @@ public class WebSecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         ;
 
+        http.authenticationProvider(daoAuthenticationProvider());
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

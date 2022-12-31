@@ -29,9 +29,12 @@ export default new Vuex.Store({
     actions: {
         login({commit}, data) {
             return UserProfileHttp.signIn(data)
-                .then(data => {
-                    commit('loginPass', data);
-                    return Promise.resolve(data);
+                .then(resp => {
+                    if(resp.data.accessToken){
+                        localStorage.setItem(KEY_TOKEN_PROPERTY, resp.data);
+                    }
+                    commit('loginPass', resp.data);
+                    return Promise.resolve(resp.data);
                 }, err => {
                     commit('loginFail');
                     return Promise.reject(err);
@@ -39,6 +42,7 @@ export default new Vuex.Store({
         },
         logout({commit}, data) {
             UserProfileHttp.signOut(data).then(() => {
+                localStorage.removeItem(KEY_TOKEN_PROPERTY);
                 commit('logout');
             });
         }

@@ -12,18 +12,18 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class InitTestRunService implements CommandLineRunner {
 
-    private final UserProfileService userProfileService;
+//    private final UserProfileService userProfileService;
 
     @Override
     public void run(String... args) throws Exception {
 
-        userProfileService.signUp(UserProfileDto.builder()
-                .email("axsadek@gmail.com")
-                .firstName("Adel")
-                .lastName("Albediwy")
-                .password("1234")
-                .username("adel1234")
-                .build());
+//        userProfileService.signUp(UserProfileDto.builder()
+//                .email("axsadek@gmail.com")
+//                .firstName("Adel")
+//                .lastName("Albediwy")
+//                .password("1234")
+//                .username("adel1234")
+//                .build());
 
     }
 }

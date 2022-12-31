@@ -12,7 +12,7 @@ public interface UserProfileService {
 
     void validateRegistration(final UserProfileDto userProfileDto) throws UserProfileException;
 
-    AuthResponse signIn(UserProfileDto userProfileDto);
+    AuthResponse signIn(UserProfileDto userProfileDto) throws UserProfileException;
 
     AuthResponse signOut(UserProfileDto userProfileDto) throws UserProfileException;
 
