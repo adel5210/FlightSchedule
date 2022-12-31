@@ -1,22 +1,47 @@
 import httpCommon from "@/api/httpCommon";
 
-const API_VER = '/api/v1';
+const AUTH_API = '/api/v1/auth';
+const KEY_TOKEN_PROPERTY = 'data';
+const data = JSON.parse(localStorage.getItem(KEY_TOKEN_PROPERTY));
 
 class UserProfileHttp {
-    signupSubmit(data){
-        return httpCommon.post(API_VER+"/signup", JSON.stringify(data));
+    authHeader() {
+
+
+        if (data && data.accessToken) {
+            return {
+                Authorization: 'Bearer ' + data.accessToken,
+                "Content-type": "application/json"
+            }
+        } else {
+            return {}
+        }
+
     }
 
-    otpSubmit(data){
-        return httpCommon.post(API_VER+"/otp", JSON.stringify(data));
+
+    signup(data) {
+        return httpCommon.post(AUTH_API + "/signup", JSON.stringify(data));
     }
 
-    loginSubmit(data){
-        return httpCommon.post(API_VER+"/login", JSON.stringify(data));
+    resendOtp(data) {
+        return httpCommon.post(AUTH_API + "/resend-otp", JSON.stringify(data));
     }
 
-    forgetPassSubmit(data){
-        return httpCommon.post(API_VER+"/forget-password", JSON.stringify(data));
+    signIn(data) {
+        return httpCommon.post(AUTH_API + "/signin", JSON.stringify(data));
+    }
+
+    signOut(data) {
+        return httpCommon.post(AUTH_API + "/signout", JSON.stringify(data));
+    }
+
+    refreshToken(data) {
+        return httpCommon.post(AUTH_API + "/refresh-token", JSON.stringify(data));
+    }
+
+    resetPassword(data) {
+        return httpCommon.post(AUTH_API + "/reset-password", JSON.stringify(data));
     }
 }
 

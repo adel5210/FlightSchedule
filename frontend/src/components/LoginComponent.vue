@@ -13,14 +13,14 @@
             lazy-validation
         >
           <v-text-field
-              v-model="email"
-              :rules="emailRules"
-              label="E-mail"
+              v-model="user.username"
+              :rules="usernameRules"
+              label="Username"
               required
           />
 
           <v-text-field
-              v-model="password"
+              v-model="user.password"
               :rules="passwordRules"
               label="Password"
               required
@@ -44,26 +44,43 @@
 </template>
 
 <script>
+import User from "@/model/User";
+
 export default {
   name: "LoginComponent",
   data() {
     return {
       valid: false,
-      email: '',
-      password: '',
-      emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+/.test(v) || 'E-mail must be valid',
+      user: new User('',''),
+      usernameRules: [
+        v => !!v || 'Username is required'
       ],
       passwordRules: [
         v => !!v || 'Password is required',
-        v => v.length >= 8 || 'Min 8 characters',
+        v => v.length >= 1 || 'Min 8 characters',
       ],
     }
   },
   methods: {
     onSubmit() {
-
+      if(this.user.username && this.user.password){
+        this.$store.dispatch('login', this.user)
+        .then(() => {
+          this.$router.push('dashboard');
+        }, err => {
+          console.error(err);
+        })
+      }
+    }
+  },
+  computed:{
+    loggedIn(){
+      return this.$store.state.status.loggedIn;
+    }
+  },
+  created() {
+    if(this.loggedIn()){
+      this.$router.push('dashboard');
     }
   }
 }

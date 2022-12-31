@@ -131,7 +131,7 @@ export default {
       let x = new UserProfileDto();
       console.log(x);
 
-      userProfileHttp.signupSubmit().then(res => {
+      userProfileHttp.signup().then(res => {
         console.log(res);
       })
           .catch(err => {
