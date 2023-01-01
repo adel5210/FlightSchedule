@@ -1,40 +1,35 @@
 <template>
   <div>
+    <DatabindComponent @mainFlights="(m) => this.mainTableData=m"
+    />
     <div style="display: flex;">
       <div>
-        <v-navigation-drawer permanent
-                             height="100vh">
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title>Home</v-list-item-title>
-              <v-list-item-subtitle>Created by Adel Mahmoud Sadek</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-divider/>
-          <v-list
-              dense
-              nav>
-            <v-list-item
-                v-for="navLink in navLinks"
-                :key="navLink.title"
-                link>
-              <v-list-item-icon>
-                <v-icon>{{ navLink.icon }}</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>{{ navLink.title }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </v-navigation-drawer>
+        <SidebarComponent
+            @handleLogout="(m) => this.onLogout()"/>
       </div>
       <div style="width: 100%">
         <v-container>
-          <v-autocomplete
-              dense
-              fille
-              solo
-          />
+          <v-row>
+            <v-card style="width: 100%">
+              <v-card-title>
+                <v-text-field
+                    v-model="mainTableSearch"
+                    append-icon="mdi-magnify"
+                    label="Search"
+                    single-line
+                    hide-details
+                />
+              </v-card-title>
+              <v-data-table
+                  style="width: 100%"
+                  :headers="mainTableHeader"
+                  :items="mainTableData"
+                  :items-per-page="10"
+                  class="elevation-1"
+                  :search="mainTableSearch"
+              />
+            </v-card>
+          </v-row>
         </v-container>
       </div>
     </div>
@@ -43,15 +38,50 @@
 </template>
 
 <script>
+import SidebarComponent from "@/components/SidebarComponent";
+import DatabindComponent from "@/components/DatabindComponent";
+
 export default {
   name: "DashboardComponent",
+  components: {DatabindComponent, SidebarComponent},
   data() {
     return {
-      navLinks: [
-        {title: 'Dashboard', icon: 'mdi-view-dashboard'},
-        {title: 'Photos', icon: 'mdi-image'},
-        {title: 'About', icon: 'mdi-help-box'}
+      mainTableHeader: [
+        {text: 'Flight date', value: 'flight_date'},
+        {text: 'Flight status', value: 'flight_status'},
+        {text: 'Flight number', value: 'flight.number'},
+        {text: 'Departure', value: 'departure.airport'},
+        {text: 'Departure schedule', value: 'departure.scheduled'},
+        {text: 'Arrival', value: 'arrival.airport'},
+        {text: 'Arrival schedule', value: 'arrival.scheduled'},
+        {text: 'Has Landed?', value: 'live.is_ground'}
       ],
+      mainTableData: [],
+      mainTableSearch: '',
+    }
+  },
+  methods:{
+    onLogout(){
+      let data = {
+        username : this.currentUser
+      };
+      this.$store.dispatch('logout', data)
+      .then(() => {
+        this.$router.push('login');
+      }, err => {
+        console.error(err);
+      })
+    }
+  },
+  computed:{
+    currentUser(){
+      console.log(this.$store.state.user.username);
+      return this.$store.state.user.username;
+    }
+  },
+  mounted() {
+    if(!this.currentUser){
+      this.$router.push('login')
     }
   }
 }

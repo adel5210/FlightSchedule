@@ -61,6 +61,7 @@
                 elevation="4"
                 outlined
                 raised
+                :loading="stage1SubmitLoading"
                 @click="onSubmitStage1"
             >
               Submit
@@ -81,19 +82,27 @@
             ref="form"
             lazy-validation
         >
-          <v-row
-              style="justify-content: center; align-self: center; width: 64px;">
+          <v-row>
             <v-text-field
-                style="padding-left: 5px; padding-right: 5px;text-align: center"
+                style="padding-left: 5px; padding-right: 5px;text-align: center; width: 64px;"
                 required
                 @keydown="limitOtp"
                 v-model="otp"/>
+            <v-btn
+                :loading="resendOtpLoading"
+                outlined
+                raised
+                small
+                right
+                @click="onResendOtp"
+            >Re-send OTP</v-btn>
           </v-row>
           <v-row style="justify-content: center; align-self: center">
             <v-btn
                 elevation="4"
                 outlined
                 raised
+                :loading="stage2SubmitLoading"
                 @click="onSubmitStage2"
             >
               Submit
@@ -123,6 +132,9 @@ export default {
       password: '',
       password2: '',
       otp: '',
+      resendOtpLoading: false,
+      stage1SubmitLoading: false,
+      stage2SubmitLoading: false,
       nameRules: [
         v => !!v || 'Name is required',
         v => v.length <= 10 || 'Name must be less than 10 characters',
@@ -141,6 +153,7 @@ export default {
   },
   methods: {
     onSubmitStage1() {
+      this.stage1SubmitLoading = true;
       let submitData = new UserProfileDto();
       submitData.firstName = this.firstname;
       submitData.lastName = this.lastname;
@@ -155,9 +168,12 @@ export default {
       })
       .catch(err => {
         console.error(err);
+      }).finally(() => {
+        this.stage1SubmitLoading = false;
       });
     },
     onSubmitStage2() {
+      this.stage2SubmitLoading = true;
       let submitData = new UserProfileDto();
       submitData.username = this.username;
       submitData.otp = this.otp;
@@ -168,6 +184,21 @@ export default {
       })
       .catch(err => {
         console.error(err);
+      }).finally(() => {
+        this.stage2SubmitLoading = false;
+      });
+    },
+    onResendOtp(){
+      this.resendOtpLoading = true;
+      let submitData = new UserProfileDto();
+      submitData.username = this.username;
+      userProfileHttp.resendOtp(submitData).then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.error(err);
+      }).finally(()=>{
+        this.resendOtpLoading = false;
       });
     },
     limitOtp() {

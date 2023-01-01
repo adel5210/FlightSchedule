@@ -32,6 +32,7 @@
                 elevation="4"
                 outlined
                 raised
+                :loading="loginSubmitLoading"
                 @click="onSubmit"
             >
               Submit
@@ -52,6 +53,7 @@ export default {
   data() {
     return {
       valid: false,
+      loginSubmitLoading: false,
       user: new User('',''),
       usernameRules: [
         v => !!v || 'Username is required'
@@ -64,12 +66,15 @@ export default {
   },
   methods: {
     onSubmit() {
+      this.loginSubmitLoading = true;
       if(this.user.username && this.user.password){
         this.$store.dispatch('login', this.user)
         .then(() => {
           this.$router.push('dashboard');
         }, err => {
           console.error(err);
+        }).finally(() => {
+          this.loginSubmitLoading = false;
         })
       }
     }

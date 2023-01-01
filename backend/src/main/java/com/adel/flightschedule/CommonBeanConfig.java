@@ -1,10 +1,13 @@
-package com.adel.flightschedule.userprofile.config;
+package com.adel.flightschedule;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class UserProfileConfig {
-
+public class CommonBeanConfig {
+    @Bean
+    public RestTemplate restTemplate(){
+        return new RestTemplate();
+    }
 }

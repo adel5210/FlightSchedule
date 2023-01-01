@@ -72,7 +72,8 @@ public class AuthTokenService {
     @Transactional
     public void deleteByUsername(final String username) {
         final UserProfileDao userProfile = userProfileDaoRepository.findByUsername(username);
-        authTokenRepository.deleteByUserProfile_Username(userProfile.getUsername());
+        authTokenRepository.findByUserProfile_Username(username)
+                .ifPresent(authTokenRepository::delete);
     }
 
 }

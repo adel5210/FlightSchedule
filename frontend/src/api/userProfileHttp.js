@@ -33,7 +33,9 @@ class UserProfileHttp {
     }
 
     signOut(data) {
-        return httpCommon.post(AUTH_API + "/signout", JSON.stringify(data));
+        return httpCommon.post(AUTH_API + "/signout", JSON.stringify(data),{
+            headers: this.authHeader()
+        });
     }
 
     refreshToken(data) {
@@ -43,6 +45,8 @@ class UserProfileHttp {
     resetPassword(data) {
         return httpCommon.post(AUTH_API + "/reset-password", JSON.stringify(data));
     }
+
+
 }
 
 export default new UserProfileHttp();
