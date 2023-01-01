@@ -190,6 +190,14 @@ export default {
         }
       }
       return tempEmail;
+    },
+    loggedIn(){
+      return this.$store.state.status.loggedIn;
+    }
+  },
+  created() {
+    if(this.loggedIn){
+      this.$router.push('dashboard');
     }
   }
 }
