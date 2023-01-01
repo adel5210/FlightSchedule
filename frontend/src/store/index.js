@@ -42,10 +42,9 @@ export default new Vuex.Store({
                 });
         },
         logout({commit}, data) {
-            UserProfileHttp.signOut(data).then(() => {
-                localStorage.removeItem(KEY_TOKEN_PROPERTY);
-                commit('logout');
-            });
+            UserProfileHttp.signOut(data).then(() => {});
+            localStorage.removeItem(KEY_TOKEN_PROPERTY);
+            commit('logout');
         }
     },
     modules: {}
