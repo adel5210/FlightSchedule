@@ -11,6 +11,15 @@
           v-model="isErrorMsg"
       >{{ errorMsg }}
       </v-alert>
+      <v-alert
+          dense
+          dismissible
+          outlined
+          type="success"
+          cl
+          v-model="isSuccessMsg"
+      >{{ successMsg }}
+      </v-alert>
       <v-card
           v-if="isStage1"
           elevation="5"
@@ -169,6 +178,8 @@ export default {
         v => v.length >= 8 || 'Min 8 characters',
         v => v === this.password || 'Mismatch password'
       ],
+      isSuccessMsg: false,
+      successMsg:'',
     }
   },
   methods: {
@@ -242,7 +253,9 @@ export default {
 
       userProfileHttp.resetPassword(submitData).then(res => {
         console.log(res);
-        this.$router.push('login');
+        this.successMsg = 'Successfully change password';
+        this.isSuccessMsg = true;
+        setTimeout(() => this.$router.push('login') , 5000);
       })
           .catch(err => {
             console.error(err);
