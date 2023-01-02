@@ -66,7 +66,7 @@ public class AviationStackServiceImpl implements AviationStackService{
         return this.webClient.get()
                 .uri(url)
                 .exchangeToMono(clientResponse -> clientResponse.bodyToMono(Object.class))
-                .block(Duration.ofMinutes(1));
+                .block(Duration.ofMinutes(3));
     }
 
 }

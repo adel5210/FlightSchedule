@@ -1,4 +1,4 @@
-package com.adel.flightschedule;
+package com.adel.flightschedule.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

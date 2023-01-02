@@ -1,7 +1,9 @@
 <template>
   <div>
-    <DatabindComponent @mainFlights="(m) => this.mainTableData=m"
-    />
+    <DatabindComponent @mainFlights="(m) => {
+      this.mainTableLoading=false;
+      this.mainTableData=m;
+    }"/>
     <div style="display: flex;">
       <div>
         <SidebarComponent
@@ -26,6 +28,8 @@
                   :items="mainTableData"
                   :items-per-page="10"
                   class="elevation-1"
+                  :loading="mainTableLoading"
+                  loading-text="Loading... Please wait"
                   :search="mainTableSearch"
               />
             </v-card>
@@ -58,6 +62,7 @@ export default {
       ],
       mainTableData: [],
       mainTableSearch: '',
+      mainTableLoading: true,
     }
   },
   methods:{

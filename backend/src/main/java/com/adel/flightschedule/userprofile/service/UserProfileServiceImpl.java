@@ -10,6 +10,7 @@ import com.adel.flightschedule.userprofile.exception.UserProfileException;
 import com.adel.flightschedule.userprofile.model.UserProfileDao;
 import com.adel.flightschedule.userprofile.repository.UserProfileDaoRepository;
 import com.adel.flightschedule.utils.ValidatorUtil;
+import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -36,7 +40,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     @Transactional
-    public void signUp(final UserProfileDto userProfileDto) {
+    public void signUp(final UserProfileDto userProfileDto) throws UserProfileException {
 
         ValidatorUtil.builder()
                 .param("First name", userProfileDto.getFirstName()).notNull()
@@ -44,6 +48,16 @@ public class UserProfileServiceImpl implements UserProfileService {
                 .param("Email", userProfileDto.getEmail()).notNull()
                 .param("Username", userProfileDto.getUsername()).notNull()
                 .param("Password", userProfileDto.getPassword()).notNull();
+
+        UserProfileDao userProfile = userProfileDaoRepository.findByUsername(userProfileDto.getUsername());
+        if (null != userProfile) {
+            throw new UserProfileException("Username already registered");
+        }
+
+        userProfile = userProfileDaoRepository.findByEmail(userProfileDto.getEmail());
+        if (null != userProfile) {
+            throw new UserProfileException("Email already registered");
+        }
 
         userProfileDaoRepository.saveAndFlush(UserProfileDao.builder()
                 .email(userProfileDto.getEmail())
@@ -61,11 +75,24 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     @Transactional(readOnly = true)
-    public void sendOTP(UserProfileDto userProfileDto) {
-        ValidatorUtil.builder()
-                .param("Username", userProfileDto.getUsername()).notNull();
+    public void sendOTP(UserProfileDto userProfileDto) throws UserProfileException {
 
-        final UserProfileDao profileDao = userProfileDaoRepository.findByUsername(userProfileDto.getUsername());
+        final String paramRequired = Optional.ofNullable(userProfileDto.getEmail())
+                .orElse(userProfileDto.getUsername());
+
+        ValidatorUtil.builder()
+                .param("username/email", paramRequired).notNull();
+
+        UserProfileDao profileDao = Optional.ofNullable(userProfileDto.getUsername())
+                .map(userProfileDaoRepository::findByUsername).orElse(null);
+
+        if (null == profileDao && !StringUtils.isEmpty(userProfileDto.getEmail())) {
+            profileDao = userProfileDaoRepository.findByEmail(userProfileDto.getEmail());
+        }
+
+        if (null == profileDao) {
+            throw new UserProfileException("Invalid username/email, cannot process OTP");
+        }
 
         final Integer generatedOtp = otpService.generateOTP(profileDao.getId());
 
@@ -81,13 +108,23 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     @Transactional
-    public void validateRegistration(UserProfileDto userProfileDto) throws UserProfileException {
+    public void validateOtp(UserProfileDto userProfileDto) throws UserProfileException {
 
         ValidatorUtil.builder()
-                .param("Username", userProfileDto.getUsername()).notNull()
                 .param("OTP", userProfileDto.getOtp()).notNull();
 
-        final UserProfileDao profileDao = userProfileDaoRepository.findByUsername(userProfileDto.getUsername());
+        final String paramRequired = Optional.ofNullable(userProfileDto.getEmail())
+                .orElse(userProfileDto.getUsername());
+
+        ValidatorUtil.builder()
+                .param("username/email", paramRequired).notNull();
+
+        UserProfileDao profileDao = Optional.ofNullable(userProfileDto.getUsername())
+                .map(userProfileDaoRepository::findByUsername).orElse(null);
+
+        if (null == profileDao && !StringUtils.isEmpty(userProfileDto.getEmail())) {
+            profileDao = userProfileDaoRepository.findByEmail(userProfileDto.getEmail());
+        }
 
         if (null == profileDao) {
             throw new UserProfileException("Email not yet registered");
@@ -182,11 +219,10 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     public void resetPassword(UserProfileDto userProfileDto) throws UserProfileException {
         ValidatorUtil.builder()
-                .param("Username", userProfileDto.getUsername()).notNull()
-                .param("Password", userProfileDto.getPassword()).notNull()
+                .param("Email", userProfileDto.getEmail()).notNull()
                 .param("new password", userProfileDto.getNewPassword()).notNull();
 
-        final UserProfileDao userProfile = userProfileDaoRepository.findByUsername(userProfileDto.getUsername());
+        final UserProfileDao userProfile = userProfileDaoRepository.findByEmail(userProfileDto.getEmail());
 
         if (null == userProfile) {
             throw new UserProfileException("Unknown user attempt reset password");

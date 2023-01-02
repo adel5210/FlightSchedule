@@ -6,11 +6,11 @@ import com.adel.flightschedule.userprofile.exception.UserProfileException;
 
 public interface UserProfileService {
 
-    void signUp(final UserProfileDto userProfileDto);
+    void signUp(final UserProfileDto userProfileDto) throws UserProfileException;
 
-    void sendOTP(final UserProfileDto userProfileDto);
+    void sendOTP(final UserProfileDto userProfileDto) throws UserProfileException;
 
-    void validateRegistration(final UserProfileDto userProfileDto) throws UserProfileException;
+    void validateOtp(final UserProfileDto userProfileDto) throws UserProfileException;
 
     AuthResponse signIn(UserProfileDto userProfileDto) throws UserProfileException;
 

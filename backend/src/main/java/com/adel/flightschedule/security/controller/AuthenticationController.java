@@ -19,14 +19,14 @@ public class AuthenticationController {
     private final UserProfileService userProfileService;
 
     @PostMapping("/signup")
-    public ResponseEntity<Void> signUp(@RequestBody UserProfileDto userProfileDto){
+    public ResponseEntity<Void> signUp(@RequestBody UserProfileDto userProfileDto) throws UserProfileException {
         log.info("SignUp for user: "+userProfileDto);
         userProfileService.signUp(userProfileDto);
         return ResponseEntity.ok(null);
     }
 
     @PostMapping("/resend-otp")
-    public ResponseEntity<Void> resendOtp(@RequestBody UserProfileDto userProfileDto) {
+    public ResponseEntity<Void> resendOtp(@RequestBody UserProfileDto userProfileDto) throws UserProfileException {
         log.info("Resend OTP for user: "+userProfileDto);
         userProfileService.sendOTP(userProfileDto);
         return ResponseEntity.ok(null);
@@ -35,7 +35,7 @@ public class AuthenticationController {
     @PostMapping("/validate-otp")
     public ResponseEntity<Void> validateOtp(@RequestBody UserProfileDto userProfileDto) throws UserProfileException {
         log.info("Check OTP for user: "+userProfileDto);
-        userProfileService.validateRegistration(userProfileDto);
+        userProfileService.validateOtp(userProfileDto);
         return ResponseEntity.ok(null);
     }
 

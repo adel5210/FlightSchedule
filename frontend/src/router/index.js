@@ -19,6 +19,11 @@ const routes = [
     name: 'dashboard',
     component: () => import('@/components/DashboardComponent')
   },
+  {
+    path: '/forget-password',
+    name: 'forget-password',
+    component: () => import('@/components/ForgetPasswordComponent')
+  },
 ]
 
 const router = new VueRouter({

@@ -1,6 +1,16 @@
 <template>
   <div>
+
     <v-container style="width: 500px; padding-top: 200px;">
+      <v-alert
+          color="red"
+          dense
+          dismissible
+          outlined
+          type="error"
+          cl
+          v-model="isErrorMsg"
+      >{{errorMsg}}</v-alert>
       <v-card
           elevation="5"
           outlined
@@ -26,6 +36,14 @@
               type="password"
               required
           />
+
+          <v-row  style="justify-content: center; align-self: center; padding-top: 5px; padding-bottom: 5px" >
+            <v-btn
+                small
+                text
+                @click="onForgetPassword"
+            >Forget Password?</v-btn>
+          </v-row>
 
           <v-row style="justify-content: center; align-self: center">
             <v-btn
@@ -62,10 +80,14 @@ export default {
         v => !!v || 'Password is required',
         v => v.length >= 1 || 'Min 8 characters',
       ],
+      errorMsg:'',
+      isErrorMsg: false
     }
   },
   methods: {
     onSubmit() {
+      this.$refs.form.validate();
+      this.isErrorMsg = false;
       this.loginSubmitLoading = true;
       if(this.user.username && this.user.password){
         this.$store.dispatch('login', this.user)
@@ -73,10 +95,15 @@ export default {
           this.$router.push('dashboard');
         }, err => {
           console.error(err);
+          this.errorMsg = err.response.data.message;
+          this.isErrorMsg = true;
         }).finally(() => {
           this.loginSubmitLoading = false;
         })
       }
+    },
+    onForgetPassword(){
+      this.$router.push('forget-password');
     }
   },
   computed:{

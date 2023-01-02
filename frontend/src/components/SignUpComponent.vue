@@ -1,6 +1,15 @@
 <template>
   <div>
     <v-container style="width: 500px; padding-top: 200px;">
+      <v-alert
+          color="red"
+          dense
+          dismissible
+          outlined
+          type="error"
+          cl
+          v-model="isErrorMsg"
+      >{{errorMsg}}</v-alert>
       <v-card
           v-if="isStage1"
           elevation="5"
@@ -148,11 +157,15 @@ export default {
         v => v.length >= 8 || 'Min 8 characters',
         v => v === this.password || 'Mismatch password'
       ],
-      numberRules: []
+      numberRules: [],
+      errorMsg:'',
+      isErrorMsg: false
     }
   },
   methods: {
     onSubmitStage1() {
+      this.$refs.form.validate();
+      this.isErrorMsg = false;
       this.stage1SubmitLoading = true;
       let submitData = new UserProfileDto();
       submitData.firstName = this.firstname;
@@ -167,12 +180,16 @@ export default {
         this.isStage2 = true;
       })
       .catch(err => {
-        console.error(err);
+        console.log(err);
+        this.errorMsg = err.response.data.message;
+        this.isErrorMsg = true;
       }).finally(() => {
         this.stage1SubmitLoading = false;
       });
     },
     onSubmitStage2() {
+      this.$refs.form.validate();
+      this.isErrorMsg = false;
       this.stage2SubmitLoading = true;
       let submitData = new UserProfileDto();
       submitData.username = this.username;
@@ -184,11 +201,14 @@ export default {
       })
       .catch(err => {
         console.error(err);
+        this.errorMsg = err.response.data.message;
+        this.isErrorMsg = true;
       }).finally(() => {
         this.stage2SubmitLoading = false;
       });
     },
     onResendOtp(){
+      this.isErrorMsg = false;
       this.resendOtpLoading = true;
       let submitData = new UserProfileDto();
       submitData.username = this.username;
@@ -197,6 +217,8 @@ export default {
       })
       .catch(err => {
         console.error(err);
+        this.errorMsg = err.response.data.message;
+        this.isErrorMsg = true;
       }).finally(()=>{
         this.resendOtpLoading = false;
       });
