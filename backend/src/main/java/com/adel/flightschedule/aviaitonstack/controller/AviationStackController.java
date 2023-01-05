@@ -24,4 +24,16 @@ public class AviationStackController {
         return ResponseEntity.ok(aviationStackService.getFlights(additionalPath));
     }
 
+    @GetMapping("/countries")
+    public ResponseEntity<Object> findCountries(final String additionalPath) {
+        log.info("Fetching flights");
+        return ResponseEntity.ok(aviationStackService.getCountries(additionalPath));
+    }
+
+    @GetMapping("/cities")
+    public ResponseEntity<Object> findCities(final String additionalPath) {
+        log.info("Fetching flights");
+        return ResponseEntity.ok(aviationStackService.getCities(additionalPath));
+    }
+
 }

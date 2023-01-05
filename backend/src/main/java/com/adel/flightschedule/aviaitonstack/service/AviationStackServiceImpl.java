@@ -64,7 +64,24 @@ public class AviationStackServiceImpl implements AviationStackService {
     public Object getFlights(String additionalParams) {
         final HttpEntity<Object> entity = new HttpEntity<>(null, this.defaultHeaders);
         final String url = fullUrl(AviationStackPath.FLIGHTS.getPath(), this.accessKey, additionalParams);
+        return processGetRequest(url);
+    }
 
+    @Override
+    public Object getCountries(String additionalParams) {
+        final HttpEntity<Object> entity = new HttpEntity<>(null, this.defaultHeaders);
+        final String url = fullUrl(AviationStackPath.COUNTRIES.getPath(), this.accessKey, additionalParams);
+        return processGetRequest(url);
+    }
+
+    @Override
+    public Object getCities(String additionalParams) {
+        final HttpEntity<Object> entity = new HttpEntity<>(null, this.defaultHeaders);
+        final String url = fullUrl(AviationStackPath.CITIES.getPath(), this.accessKey, additionalParams);
+        return processGetRequest(url);
+    }
+
+    private Object processGetRequest(final String url){
         return this.webClient.get()
                 .uri(url)
                 .exchangeToMono(clientResponse -> clientResponse.bodyToMono(Object.class))

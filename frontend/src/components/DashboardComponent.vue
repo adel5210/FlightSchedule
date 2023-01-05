@@ -11,9 +11,9 @@
             @sidePathSelection="(m) => this.changeContainedViewPath(m)"/>
       </div>
       <div style="width: 100%">
-        <router-view name="containedView"/>
-        <v-container>
-          <v-row >
+        <component :is="multipleComponent"/>
+        <v-container v-if="false">
+          <v-row>
             <v-card style="width: 100%">
               <v-card-title>
                 <v-text-field
@@ -46,10 +46,25 @@
 <script>
 import SidebarComponent from "@/components/SidebarComponent";
 import DatabindComponent from "@/components/DatabindComponent";
+import TrackFlightConponent from "@/components/TrackFlightConponent";
+import SearchFlightComponent from "@/components/SearchFlightComponent";
+import HistoryComponent from "@/components/HistoryComponent";
+import AirlineRoutesComponent from "@/components/AirlineRoutesComponent";
+import AirportComponent from "@/components/AirportComponent";
+import AirlinesComponent from "@/components/AirlinesComponent";
+import CitiesComponent from "@/components/CitiesComponent";
+import CountriesComponent from "@/components/CountriesComponent";
 
 export default {
   name: "DashboardComponent",
-  components: {DatabindComponent, SidebarComponent},
+  components: {
+    CountriesComponent,
+    CitiesComponent,
+    AirlinesComponent,
+    AirportComponent,
+    AirlineRoutesComponent,
+    HistoryComponent, SearchFlightComponent, TrackFlightConponent, DatabindComponent, SidebarComponent
+  },
   data() {
     return {
       mainTableHeader: [
@@ -65,6 +80,7 @@ export default {
       mainTableData: [],
       mainTableSearch: '',
       mainTableLoading: true,
+      currentSelectedPath: null
     }
   },
   methods: {
@@ -79,14 +95,27 @@ export default {
             console.error(err);
           })
     },
-    changeContainedViewPath(path){
+    changeContainedViewPath(path) {
       console.log(path);
-      this.$router.push('/dashboard'+path);
+      this.currentSelectedPath = path;
     }
   },
   computed: {
     currentUser() {
       return this.$store.state.user;
+    },
+    multipleComponent(){
+      switch (this.currentSelectedPath){
+        case 'track-flights': return TrackFlightConponent;
+        case 'search-flights': return SearchFlightComponent;
+        case 'history': return HistoryComponent;
+        case 'airline-routes': return AirlineRoutesComponent;
+        case 'airports': return AirportComponent;
+        case 'airlines': return AirlinesComponent;
+        case 'cities': return CitiesComponent;
+        case 'countries': return CountriesComponent;
+      }
+      return null;
     }
   },
   mounted() {

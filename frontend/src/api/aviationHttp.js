@@ -24,6 +24,24 @@ class AviationHttp {
             }
         });
     }
+
+    fetchCountries(param) {
+        return httpCommon.get(AVIA_API + "/countries", {
+            headers: this.authHeader(),
+            params: {
+                additionalPath: param
+            }
+        });
+    }
+
+    fetchCities(param) {
+        return httpCommon.get(AVIA_API + "/cities", {
+            headers: this.authHeader(),
+            params: {
+                additionalPath: param
+            }
+        });
+    }
 }
 
 export default new AviationHttp();

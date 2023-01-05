@@ -12,7 +12,8 @@ public enum AviationStackPath {
     ROUTES("routes", HttpMethod.GET),
     AIRPORTS("airports", HttpMethod.GET),
     AIRLINES("airlines", HttpMethod.GET),
-
+    CITIES("cities", HttpMethod.GET),
+    COUNTRIES("countries", HttpMethod.GET),
     ;
 
     private final String path;

@@ -20,7 +20,7 @@ export default {
     }
   },
   mounted() {
-    this.initFlights();
+    // this.initFlights();
   },
   emits: [
       'mainFlights'

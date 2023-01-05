@@ -1,12 +1,15 @@
 <template>
   <div>
-    <label>AirlineRoutes</label>
+    <h1>AirlineRoutes</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: "AirlineRoutesComponent"
+  name: "AirlineRoutesComponent",
+  mounted() {
+    console.log("MOUNTED AIRLINE ROUTES")
+  }
 }
 </script>
 

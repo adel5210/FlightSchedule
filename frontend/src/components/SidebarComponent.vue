@@ -12,18 +12,22 @@
       <v-list
           dense
           nav>
-        <v-list-item
-            v-for="navLink in navLinks"
-            :key="navLink.title"
-            @click="selectionPath(navLink.path)"
-            link>
-          <v-list-item-icon>
-            <v-icon>{{ navLink.icon }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ navLink.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <v-list-item-group
+            v-model="selectedSide">
+          <v-list-item
+              v-for="(navLink, i) in navLinks"
+              :key="i"
+              :input-value="navLink"
+              @click="selectionPath(navLink)"
+              link>
+            <v-list-item-icon>
+              <v-icon>{{ navLink.icon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ navLink.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
       </v-list>
       <template v-slot:append>
         <div class="pa-2">
@@ -44,16 +48,17 @@ export default {
   data() {
     return {
       navLinks: [
-        {title: 'Track you flight', icon: 'mdi-airplane-marker', path: "/track-flights"},
-        {title: 'Search flights', icon: 'mdi-airplane', path: "/search-flights"},
-        {title: 'History', icon: 'mdi-airplane-clock', path: "/history"},
-        {title: 'Airline Routes', icon: 'mdi-routes', path: "/airline-routes"},
-        {title: 'Airports', icon: 'mdi-airport', path: "/airports"},
-        {title: 'Airlines', icon: 'mdi-airplane-check', path: "/airlines"},
-        {title: 'Cities', icon: 'mdi-city', path: "/cities"},
-        {title: 'Countries', icon: 'mdi-image-filter-hdr', path: "/countries"},
+        {title: 'Track you flight', icon: 'mdi-airplane-marker', path: "track-flights"},
+        {title: 'Search flights', icon: 'mdi-airplane', path: "search-flights"},
+        {title: 'History', icon: 'mdi-airplane-clock', path: "history"},
+        {title: 'Airline Routes', icon: 'mdi-routes', path: "airline-routes"},
+        {title: 'Airports', icon: 'mdi-airport', path: "airports"},
+        {title: 'Airlines', icon: 'mdi-airplane-check', path: "airlines"},
+        {title: 'Cities', icon: 'mdi-city', path: "cities"},
+        {title: 'Countries', icon: 'mdi-image-filter-hdr', path: "countries"},
       ],
-      logoutLoading: false
+      logoutLoading: false,
+      selectedSide: null
     }
   },
   methods: {
@@ -62,14 +67,15 @@ export default {
       this.$emit('handleLogout', true);
       this.logoutLoading = false;
     },
-    selectionPath(path){
-      this.$emit('sidePathSelection', path);
+    selectionPath(nav) {
+      this.$emit('sidePathSelection', nav.path);
     }
   },
   emits: [
     'handleLogout',
     'sidePathSelection'
-  ]
+  ],
+
 }
 </script>
 
