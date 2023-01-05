@@ -58,13 +58,16 @@ public class WebSecurityConfig {
 //        permittedHttp.add("/api/v1/auth/refresh-token");
 //        permittedHttp.add("/api/v1/auth/reset-password");
         permittedHttp.add("/api/v1/auth/**");
+        final List<String> authorizedHttps = new ArrayList<>();
+        authorizedHttps.add("/api/v1/aviation/**");
 
         http
                 .cors().and()
                 .csrf().disable()
                 .headers().frameOptions().deny().and()
                 .authorizeHttpRequests().requestMatchers(permittedHttp.toArray(new String[0])).permitAll()
-                .anyRequest().authenticated().and()
+                .requestMatchers(authorizedHttps.toArray(new String[0])).authenticated()
+                .anyRequest().permitAll().and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
