@@ -4,7 +4,9 @@ import com.adel.flightschedule.aviaitonstack.config.AviationStackConfig;
 import com.adel.flightschedule.aviaitonstack.model.AviationStackPath;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class AviationStackServiceImpl implements AviationStackService{
+public class AviationStackServiceImpl implements AviationStackService {
 
     private final RestTemplate restTemplate;
     private final AviationStackConfig aviationStackConfig;
@@ -28,11 +30,11 @@ public class AviationStackServiceImpl implements AviationStackService{
     private WebClient webClient;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         this.rootUrl = aviationStackConfig.getUrl();
         this.defaultHeaders = new HttpHeaders();
         this.defaultHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        this.accessKey = ("access_key="+aviationStackConfig.getApikey());
+        this.accessKey = ("access_key=" + aviationStackConfig.getApikey());
         this.webClient = WebClient.builder()
 //                .baseUrl(this.rootUrl)
                 .build();
@@ -49,7 +51,7 @@ public class AviationStackServiceImpl implements AviationStackService{
             urlBuilder
                     .append("?")
                     .append(Arrays.stream(additionalPath)
-                            .filter(f-> !Objects.isNull(f))
+                            .filter(f -> !Objects.isNull(f))
                             .collect(Collectors.joining("&"))
                     )
             ;
@@ -61,7 +63,7 @@ public class AviationStackServiceImpl implements AviationStackService{
     @Override
     public Object getFlights(String additionalParams) {
         final HttpEntity<Object> entity = new HttpEntity<>(null, this.defaultHeaders);
-        final String url = fullUrl(AviationStackPath.FLIGHTS.getPath(),this.accessKey, additionalParams);
+        final String url = fullUrl(AviationStackPath.FLIGHTS.getPath(), this.accessKey, additionalParams);
 
         return this.webClient.get()
                 .uri(url)

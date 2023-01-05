@@ -7,11 +7,13 @@
     <div style="display: flex;">
       <div>
         <SidebarComponent
-            @handleLogout="(m) => this.onLogout()"/>
+            @handleLogout="(m) => this.onLogout()"
+            @sidePathSelection="(m) => this.changeContainedViewPath(m)"/>
       </div>
       <div style="width: 100%">
+        <router-view name="containedView"/>
         <v-container>
-          <v-row>
+          <v-row >
             <v-card style="width: 100%">
               <v-card-title>
                 <v-text-field
@@ -65,28 +67,31 @@ export default {
       mainTableLoading: true,
     }
   },
-  methods:{
-    onLogout(){
+  methods: {
+    onLogout() {
       let data = {
-        username : this.currentUser
+        username: this.currentUser
       };
       this.$store.dispatch('logout', data)
-      .then(() => {
-        this.$router.push('login');
-      }, err => {
-        console.error(err);
-      })
+          .then(() => {
+            this.$router.replace('login');
+          }, err => {
+            console.error(err);
+          })
+    },
+    changeContainedViewPath(path){
+      console.log(path);
+      this.$router.push('/dashboard'+path);
     }
   },
-  computed:{
-    currentUser(){
-      console.log(this.$store.state.user.username);
-      return this.$store.state.user.username;
+  computed: {
+    currentUser() {
+      return this.$store.state.user;
     }
   },
   mounted() {
-    if(!this.currentUser){
-      this.$router.push('login')
+    if (!this.currentUser) {
+      this.$router.replace('login')
     }
   }
 }

@@ -16,4 +16,11 @@ public interface UserProfileDaoRepository extends JpaRepository<UserProfileDao, 
     @Query("select u from UserProfileDao u where u.id = :id")
     UserProfileDao findByUserId(@Param("id") Long id);
 
+    @Query("select u from UserProfileDao u " +
+            "where u.username = :user " +
+            "or u.email = :user")
+    UserProfileDao findByUsernameOrEmail(@Param("user") String user);
+
+
+
 }

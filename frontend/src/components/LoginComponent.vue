@@ -25,7 +25,7 @@
           <v-text-field
               v-model="user.username"
               :rules="usernameRules"
-              label="Username"
+              label="Username/Email"
               required
           />
 
@@ -86,7 +86,9 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$refs.form.validate();
+      if(!this.$refs.form.validate()){
+        return;
+      }
       this.isErrorMsg = false;
       this.loginSubmitLoading = true;
       if(this.user.username && this.user.password){
@@ -111,9 +113,9 @@ export default {
       return this.$store.state.status.loggedIn;
     }
   },
-  created() {
+  beforeMount() {
     if(this.loggedIn){
-      this.$router.push('dashboard');
+      this.$router.replace('dashboard');
     }
   }
 }

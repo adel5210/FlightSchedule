@@ -1,7 +1,5 @@
 package com.adel.flightschedule;
 
-import com.adel.flightschedule.userprofile.dto.UserProfileDto;
-import com.adel.flightschedule.userprofile.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;

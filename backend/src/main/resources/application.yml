@@ -29,7 +29,7 @@ aviationstack:
     url: http://api.aviationstack.com/v1
 
 jwt:
-    secretHash: jwthash@123$flight$schedule
+    secretHash: 2B4B6250655368566D597133743677397A24432646294A404D635166546A576E
     accessExpireMs: 3600000
     refreshExpireMs: 86400000
 

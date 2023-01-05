@@ -164,7 +164,9 @@ export default {
   },
   methods: {
     onSubmitStage1() {
-      this.$refs.form.validate();
+      if(!this.$refs.form.validate()){
+        return;
+      }
       this.isErrorMsg = false;
       this.stage1SubmitLoading = true;
       let submitData = new UserProfileDto();
@@ -188,7 +190,9 @@ export default {
       });
     },
     onSubmitStage2() {
-      this.$refs.form.validate();
+      if(!this.$refs.form.validate()){
+        return;
+      }
       this.isErrorMsg = false;
       this.stage2SubmitLoading = true;
       let submitData = new UserProfileDto();
@@ -250,7 +254,7 @@ export default {
   },
   created() {
     if(this.loggedIn){
-      this.$router.push('dashboard');
+      this.$router.replace('dashboard');
     }
   }
 }

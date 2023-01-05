@@ -15,6 +15,7 @@
         <v-list-item
             v-for="navLink in navLinks"
             :key="navLink.title"
+            @click="selectionPath(navLink.path)"
             link>
           <v-list-item-icon>
             <v-icon>{{ navLink.icon }}</v-icon>
@@ -43,14 +44,14 @@ export default {
   data() {
     return {
       navLinks: [
-        {title: 'Track you flight', icon: 'mdi-airplane-marker'},
-        {title: 'Search flights', icon: 'mdi-airplane'},
-        {title: 'History', icon: 'mdi-airplane-clock'},
-        {title: 'Airline Routes', icon: 'mdi-routes'},
-        {title: 'Airports', icon: 'mdi-airport'},
-        {title: 'Airlines', icon: 'mdi-airplane-check'},
-        {title: 'Cities', icon: 'mdi-city'},
-        {title: 'Countries', icon: 'mdi-image-filter-hdr'},
+        {title: 'Track you flight', icon: 'mdi-airplane-marker', path: "/track-flights"},
+        {title: 'Search flights', icon: 'mdi-airplane', path: "/search-flights"},
+        {title: 'History', icon: 'mdi-airplane-clock', path: "/history"},
+        {title: 'Airline Routes', icon: 'mdi-routes', path: "/airline-routes"},
+        {title: 'Airports', icon: 'mdi-airport', path: "/airports"},
+        {title: 'Airlines', icon: 'mdi-airplane-check', path: "/airlines"},
+        {title: 'Cities', icon: 'mdi-city', path: "/cities"},
+        {title: 'Countries', icon: 'mdi-image-filter-hdr', path: "/countries"},
       ],
       logoutLoading: false
     }
@@ -60,10 +61,14 @@ export default {
       this.logoutLoading = true;
       this.$emit('handleLogout', true);
       this.logoutLoading = false;
+    },
+    selectionPath(path){
+      this.$emit('sidePathSelection', path);
     }
   },
   emits: [
-    'handleLogout'
+    'handleLogout',
+    'sidePathSelection'
   ]
 }
 </script>

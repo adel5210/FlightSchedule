@@ -20,21 +20,21 @@ public class AuthenticationController {
 
     @PostMapping("/signup")
     public ResponseEntity<Void> signUp(@RequestBody UserProfileDto userProfileDto) throws UserProfileException {
-        log.info("SignUp for user: "+userProfileDto);
+        log.info("SignUp for user: " + userProfileDto);
         userProfileService.signUp(userProfileDto);
         return ResponseEntity.ok(null);
     }
 
     @PostMapping("/resend-otp")
     public ResponseEntity<Void> resendOtp(@RequestBody UserProfileDto userProfileDto) throws UserProfileException {
-        log.info("Resend OTP for user: "+userProfileDto);
+        log.info("Resend OTP for user: " + userProfileDto);
         userProfileService.sendOTP(userProfileDto);
         return ResponseEntity.ok(null);
     }
 
     @PostMapping("/validate-otp")
     public ResponseEntity<Void> validateOtp(@RequestBody UserProfileDto userProfileDto) throws UserProfileException {
-        log.info("Check OTP for user: "+userProfileDto);
+        log.info("Check OTP for user: " + userProfileDto);
         userProfileService.validateOtp(userProfileDto);
         return ResponseEntity.ok(null);
     }

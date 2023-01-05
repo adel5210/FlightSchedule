@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,7 +26,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private final JwtUserDetailService jwtUserDetailService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         final String requestTokenHeader = request.getHeader("Authorization");
 
@@ -37,7 +38,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
             jwtToken = requestTokenHeader.substring(7);
             try {
-                username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+                username = jwtTokenUtil.extractUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
                 log.error("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {
@@ -47,12 +48,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             log.warn("JWT Token does not begin with Bearer String");
         }
 
-        if(null != username
-                && null == SecurityContextHolder.getContext().getAuthentication()){
+        if (null != username
+                && null == SecurityContextHolder.getContext().getAuthentication()) {
             final UserDetails userDetails = jwtUserDetailService.loadUserByUsername(username);
 
             //if token validated, configure Spring security to manual set authentication
-            if(jwtTokenUtil.validateToken(jwtToken, userDetails)){
+            if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
                 final UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                         new UsernamePasswordAuthenticationToken(
                                 userDetails,

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class EmailServiceImpl implements EmailService{
+public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender mailSender;
 
@@ -19,14 +19,14 @@ public class EmailServiceImpl implements EmailService{
 
     @Override
     public void sendMessage(String toEmail, String subject, String message) {
-        log.info("Sending message to :"+toEmail);
+        log.info("Sending message to :" + toEmail);
         final SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom(fromEmail);
         simpleMailMessage.setTo(toEmail);
         simpleMailMessage.setSubject(subject);
         simpleMailMessage.setText(message);
         mailSender.send(simpleMailMessage);
-        log.info("Message sent, "+toEmail);
+        log.info("Message sent, " + toEmail);
     }
 
 }

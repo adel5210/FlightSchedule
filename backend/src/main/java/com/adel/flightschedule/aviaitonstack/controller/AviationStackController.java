@@ -19,7 +19,7 @@ public class AviationStackController {
     private final AviationStackService aviationStackService;
 
     @GetMapping("/flights")
-    public ResponseEntity<Object> findFlights(final String additionalPath){
+    public ResponseEntity<Object> findFlights(final String additionalPath) {
         log.info("Fetching flights");
         return ResponseEntity.ok(aviationStackService.getFlights(additionalPath));
     }

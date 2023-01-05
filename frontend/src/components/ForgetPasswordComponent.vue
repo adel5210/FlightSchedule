@@ -137,6 +137,7 @@
                 outlined
                 raised
                 :loading="stage3SubmitLoading"
+                :disabled="submittedNewPassword"
                 @click="onSubmitStage3"
             >
               Submit
@@ -180,11 +181,14 @@ export default {
       ],
       isSuccessMsg: false,
       successMsg:'',
+      submittedNewPassword: false
     }
   },
   methods: {
     onSubmitStage1() {
-      this.$refs.form.validate();
+      if(!this.$refs.form.validate()){
+        return;
+      }
       this.stage1SubmitLoading = true;
       this.isErrorMsg = false;
       let submitData = new UserProfileDto();
@@ -222,7 +226,9 @@ export default {
       });
     },
     onSubmitStage2() {
-      this.$refs.form.validate();
+      if(!this.$refs.form.validate()){
+        return;
+      }
       this.isErrorMsg = false;
       this.stage2SubmitLoading = true;
       let submitData = new UserProfileDto();
@@ -244,7 +250,9 @@ export default {
       });
     },
     onSubmitStage3() {
-      this.$refs.form.validate();
+      if(!this.$refs.form.validate()){
+        return;
+      }
       this.isErrorMsg = false;
       this.stage3SubmitLoading = true;
       let submitData = new UserProfileDto();
@@ -255,6 +263,7 @@ export default {
         console.log(res);
         this.successMsg = 'Successfully change password';
         this.isSuccessMsg = true;
+        this.submittedNewPassword = true;
         setTimeout(() => this.$router.push('login') , 5000);
       })
           .catch(err => {
@@ -269,6 +278,16 @@ export default {
       this.otp = /^\d+$/.test(this.otp) ? this.otp : '';
       this.otp = this.otp.length > 5 ? this.otp.substring(0, 5) : this.otp;
     },
+  },
+  computed:{
+    loggedIn(){
+      return this.$store.state.status.loggedIn;
+    }
+  },
+  created() {
+    if(this.loggedIn){
+      this.$router.replace('dashboard');
+    }
   }
 }
 </script>

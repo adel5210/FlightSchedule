@@ -6,10 +6,8 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.Collections;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,7 +17,8 @@ public class UserDetailsImpl implements UserDetails {
     private Long id;
     private String username;
     private String email;
-    @JsonIgnore private String password;
+    @JsonIgnore
+    private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
     @Override

@@ -1,8 +1,6 @@
 package com.adel.flightschedule.common.controller;
 
 import com.adel.flightschedule.common.model.ErrorResponse;
-import com.adel.flightschedule.security.exception.TokenRefreshException;
-import com.adel.flightschedule.userprofile.exception.UserProfileException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,7 +16,7 @@ public class GlobalControllerAdvisor {
             Exception.class
     })
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleGlobalException(Exception ex, WebRequest request){
+    public ErrorResponse handleGlobalException(Exception ex, WebRequest request) {
         final ErrorResponse errorResponse = ErrorResponse.builder()
                 .code(HttpStatus.BAD_REQUEST.value())
                 .message(ex.getMessage())
