@@ -1,10 +1,12 @@
 <template>
-  <div></div>
+  <NotAvailable/>
 </template>
 
 <script>
+import NotAvailable from "@/components/NotAvailable";
 export default {
-  name: "HistoryComponent"
+  name: "HistoryComponent",
+  components: {NotAvailable}
 }
 </script>
 

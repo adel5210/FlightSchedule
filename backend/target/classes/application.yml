@@ -1,0 +1,35 @@
+#server:
+#    port: 8081
+
+jasypt:
+    encryptor:
+        password: qazwsx123
+        algorithm: PBEWithMD5AndDES
+        iv-generator-classname: org.jasypt.iv.NoIvGenerator
+
+spring:
+    datasource:
+        url: jdbc:postgresql://db.aopuueljjesljgrkzrxy.supabase.co:5432/postgres
+        username: postgres
+        password: ENC(f4tnZ4zyIySZGnhS4d7TABnEm8ty0q2BTVU1vZkgQgc=)
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: go.test.sadek@gmail.com
+        password: ENC(r1Pe8m47pkNwvu2G0HL6ITOYo1eA/mCmUs/+sVQZL6s=)
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
+
+aviationstack:
+    apikey: 6c613d01b9ed407c46c7ba5c5717a139
+    url: http://api.aviationstack.com/v1
+
+jwt:
+    secretHash: 2B4B6250655368566D597133743677397A24432646294A404D635166546A576E
+    accessExpireMs: 3600000
+    refreshExpireMs: 86400000
+

@@ -1,12 +1,14 @@
 <template>
   <div>
-    <label>AirlineRoutes</label>
+   <NotAvailable/>
   </div>
 </template>
 
 <script>
+import NotAvailable from "@/components/NotAvailable";
 export default {
-  name: "AirlinesComponent"
+  name: "AirlinesComponent",
+  components: {NotAvailable}
 }
 </script>
 

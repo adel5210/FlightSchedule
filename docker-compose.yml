@@ -1,0 +1,16 @@
+version: '1'
+services:
+    flight-schedule:
+        container_name: flight-schedule
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: flight-schedule:latest
+        ports:
+            - 8080:8080
+            - 8443:8443
+        networks:
+            - flight-schedule-network
+networks:
+    flight-schedule-network:
+        driver: bridge

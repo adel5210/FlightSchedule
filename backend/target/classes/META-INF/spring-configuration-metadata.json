@@ -1,0 +1,42 @@
+{
+  "groups": [
+    {
+      "name": "aviationstack",
+      "type": "com.adel.flightschedule.aviaitonstack.config.AviationStackConfig",
+      "sourceType": "com.adel.flightschedule.aviaitonstack.config.AviationStackConfig"
+    },
+    {
+      "name": "jwt",
+      "type": "com.adel.flightschedule.security.config.JwtPropertiesConfig",
+      "sourceType": "com.adel.flightschedule.security.config.JwtPropertiesConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "aviationstack.apikey",
+      "type": "java.lang.String",
+      "sourceType": "com.adel.flightschedule.aviaitonstack.config.AviationStackConfig"
+    },
+    {
+      "name": "aviationstack.url",
+      "type": "java.lang.String",
+      "sourceType": "com.adel.flightschedule.aviaitonstack.config.AviationStackConfig"
+    },
+    {
+      "name": "jwt.access-expire-ms",
+      "type": "java.lang.Integer",
+      "sourceType": "com.adel.flightschedule.security.config.JwtPropertiesConfig"
+    },
+    {
+      "name": "jwt.refresh-expire-ms",
+      "type": "java.lang.Integer",
+      "sourceType": "com.adel.flightschedule.security.config.JwtPropertiesConfig"
+    },
+    {
+      "name": "jwt.secret-hash",
+      "type": "java.lang.String",
+      "sourceType": "com.adel.flightschedule.security.config.JwtPropertiesConfig"
+    }
+  ],
+  "hints": []
+}
