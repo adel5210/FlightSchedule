@@ -13,7 +13,7 @@ public class ErrorHandlingController implements ErrorController {
 
     @RequestMapping("/error")
     public ResponseEntity<String> handleError(){
-        return new ResponseEntity<>("Not Found", HttpStatusCode.valueOf(404));
+        return new ResponseEntity<>("Not Found", HttpStatusCode.valueOf(200));
     }
 
 }
