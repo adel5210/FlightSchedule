@@ -86,7 +86,7 @@ export default {
   methods: {
     onLogout() {
       let data = {
-        username: this.currentUser
+        username: this.currentUser.username
       };
       this.$store.dispatch('logout', data)
           .then(() => {
