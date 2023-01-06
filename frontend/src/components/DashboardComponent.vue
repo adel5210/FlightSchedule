@@ -1,9 +1,5 @@
 <template>
   <div>
-    <DatabindComponent @mainFlights="(m) => {
-      this.mainTableLoading=false;
-      this.mainTableData=m;
-    }"/>
     <div style="display: flex;">
       <div>
         <SidebarComponent
@@ -12,40 +8,13 @@
       </div>
       <div style="width: 100%">
         <component :is="multipleComponent"/>
-        <v-container v-if="false">
-          <v-row>
-            <v-card style="width: 100%">
-              <v-card-title>
-                <v-text-field
-                    v-model="mainTableSearch"
-                    append-icon="mdi-magnify"
-                    label="Search"
-                    single-line
-                    hide-details
-                />
-              </v-card-title>
-              <v-data-table
-                  style="width: 100%"
-                  :headers="mainTableHeader"
-                  :items="mainTableData"
-                  :items-per-page="10"
-                  class="elevation-1"
-                  :loading="mainTableLoading"
-                  loading-text="Loading... Please wait"
-                  :search="mainTableSearch"
-              />
-            </v-card>
-          </v-row>
-        </v-container>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
 import SidebarComponent from "@/components/SidebarComponent";
-import DatabindComponent from "@/components/DatabindComponent";
 import TrackFlightConponent from "@/components/TrackFlightConponent";
 import SearchFlightComponent from "@/components/SearchFlightComponent";
 import HistoryComponent from "@/components/HistoryComponent";
@@ -63,7 +32,10 @@ export default {
     AirlinesComponent,
     AirportComponent,
     AirlineRoutesComponent,
-    HistoryComponent, SearchFlightComponent, TrackFlightConponent, DatabindComponent, SidebarComponent
+    HistoryComponent,
+    SearchFlightComponent,
+    TrackFlightConponent,
+    SidebarComponent
   },
   data() {
     return {
