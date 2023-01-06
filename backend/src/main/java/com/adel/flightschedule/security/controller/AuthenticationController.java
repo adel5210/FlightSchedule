@@ -41,21 +41,25 @@ public class AuthenticationController {
 
     @PostMapping("/signin")
     public ResponseEntity<AuthResponse> signIn(@RequestBody UserProfileDto userProfileDto) throws UserProfileException {
+        log.info("SignIn for user: " + userProfileDto);
         return ResponseEntity.ok(userProfileService.signIn(userProfileDto));
     }
 
     @PostMapping("/signout")
     public ResponseEntity<AuthResponse> signOut(@RequestBody UserProfileDto userProfileDto) throws UserProfileException {
+        log.info("SignOut for user: " + userProfileDto);
         return ResponseEntity.ok(userProfileService.signOut(userProfileDto));
     }
 
     @PostMapping("/refresh-token")
     public ResponseEntity<AuthResponse> refreshToken(@RequestBody UserProfileDto userProfileDto) throws UserProfileException {
+        log.info("Refresh token for user: " + userProfileDto);
         return ResponseEntity.ok(userProfileService.refreshToken(userProfileDto));
     }
 
     @PostMapping("/reset-password")
     public ResponseEntity<Void> resetPassword(@RequestBody UserProfileDto userProfileDto) throws UserProfileException {
+        log.info("Reset password for user: " + userProfileDto);
         userProfileService.resetPassword(userProfileDto);
         return ResponseEntity.ok(null);
     }

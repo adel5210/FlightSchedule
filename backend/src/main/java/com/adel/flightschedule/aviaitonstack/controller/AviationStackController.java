@@ -20,19 +20,19 @@ public class AviationStackController {
 
     @GetMapping("/flights")
     public ResponseEntity<Object> findFlights(final String additionalPath) {
-        log.info("Fetching flights");
+        log.info("Fetching flights "+additionalPath);
         return ResponseEntity.ok(aviationStackService.getFlights(additionalPath));
     }
 
     @GetMapping("/countries")
     public ResponseEntity<Object> findCountries(final String additionalPath) {
-        log.info("Fetching flights");
+        log.info("Find countries "+additionalPath);
         return ResponseEntity.ok(aviationStackService.getCountries(additionalPath));
     }
 
     @GetMapping("/cities")
     public ResponseEntity<Object> findCities(final String additionalPath) {
-        log.info("Fetching flights");
+        log.info("Find cities "+additionalPath);
         return ResponseEntity.ok(aviationStackService.getCities(additionalPath));
     }
 
