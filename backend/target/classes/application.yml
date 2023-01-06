@@ -29,7 +29,7 @@ spring:
                         enable: true
 
 aviationstack:
-    apikey: 6c613d01b9ed407c46c7ba5c5717a139
+    apikey: 4495c9324a59d64375c9c978de361de9
     url: http://api.aviationstack.com/v1
 
 jwt:
