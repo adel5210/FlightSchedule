@@ -36,7 +36,13 @@
               type="password"
               required
           />
-
+          <v-row  style="justify-content: center; align-self: center; padding-top: 5px; padding-bottom: 5px" >
+            <v-btn
+                small
+                text
+                @click="onSignUp"
+            >No account yet? Create one now</v-btn>
+          </v-row>
           <v-row  style="justify-content: center; align-self: center; padding-top: 5px; padding-bottom: 5px" >
             <v-btn
                 small
@@ -105,7 +111,10 @@ export default {
       }
     },
     onForgetPassword(){
-      this.$router.push('forget-password');
+      this.$router.replace('forget-password');
+    },
+    onSignUp(){
+      this.$router.replace('signup');
     }
   },
   computed:{

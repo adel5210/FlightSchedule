@@ -64,7 +64,13 @@
               type="password"
               required
           />
-
+          <v-row  style="justify-content: center; align-self: center; padding-top: 5px; padding-bottom: 5px" >
+            <v-btn
+                small
+                text
+                @click="onSignIn"
+            >Already have an account? Sign in</v-btn>
+          </v-row>
           <v-row style="justify-content: center; align-self: center">
             <v-btn
                 elevation="4"
@@ -230,6 +236,9 @@ export default {
     limitOtp() {
       this.otp = /^\d+$/.test(this.otp) ? this.otp : '';
       this.otp = this.otp.length > 5 ? this.otp.substring(0, 5) : this.otp;
+    },
+    onSignIn(){
+      this.$router.replace('login');
     }
   },
   computed: {
