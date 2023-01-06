@@ -1,4 +1,7 @@
-#server:
+server:
+    error:
+        whitelabel:
+            enabled: false
 #    port: 8081
 
 jasypt:
