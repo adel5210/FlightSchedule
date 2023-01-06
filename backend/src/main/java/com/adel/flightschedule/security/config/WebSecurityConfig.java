@@ -50,13 +50,6 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         final List<String> permittedHttp = new ArrayList<>();
-//        permittedHttp.add("/api/v1/auth/signin");
-//        permittedHttp.add("/api/v1/auth/signout");
-//        permittedHttp.add("/api/v1/auth/signup");
-//        permittedHttp.add("/api/v1/auth/resend-otp");
-//        permittedHttp.add("/api/v1/auth/validate-otp");
-//        permittedHttp.add("/api/v1/auth/refresh-token");
-//        permittedHttp.add("/api/v1/auth/reset-password");
         permittedHttp.add("/api/v1/auth/**");
         final List<String> authorizedHttps = new ArrayList<>();
         authorizedHttps.add("/api/v1/aviation/**");
@@ -66,7 +59,6 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 .headers().frameOptions().deny().and()
                 .authorizeHttpRequests()
-//                .requestMatchers(permittedHttp.toArray(new String[0])).permitAll()
                 .requestMatchers(authorizedHttps.toArray(new String[0])).authenticated()
                 .anyRequest().permitAll().and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()

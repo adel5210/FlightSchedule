@@ -1,11 +1,13 @@
 package com.adel.flightschedule.security.service;
 
+import com.adel.flightschedule.security.exception.TokenRefreshException;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +27,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private final JwtTokenUtil jwtTokenUtil;
     private final JwtUserDetailService jwtUserDetailService;
 
+    @SneakyThrows
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
 
@@ -43,6 +46,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 log.error("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {
                 log.error("Jwt Token has expired");
+                throw new TokenRefreshException("JWT Token has expired");
             }
         } else {
             log.warn("JWT Token does not begin with Bearer String");
