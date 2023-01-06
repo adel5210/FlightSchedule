@@ -7,6 +7,7 @@ com/adel/flightschedule/userprofile/model/UserProfileDao.class
 com/adel/flightschedule/security/config/JwtPropertiesConfig.class
 com/adel/flightschedule/aviaitonstack/config/AviationStackConfig.class
 com/adel/flightschedule/aviaitonstack/model/AviationStackPath.class
+com/adel/flightschedule/common/controller/ErrorHandlingController.class
 com/adel/flightschedule/security/service/JwtUserDetailService.class
 com/adel/flightschedule/InitTestRunService.class
 com/adel/flightschedule/userprofile/service/UserProfileService.class

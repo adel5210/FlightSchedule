@@ -14,6 +14,7 @@
 /home/pc7/Desktop/FlightSchedule/backend/src/main/java/com/adel/flightschedule/security/service/JwtAuthenticationEntryPoint.java
 /home/pc7/Desktop/FlightSchedule/backend/src/main/java/com/adel/flightschedule/userprofile/service/OTPService.java
 /home/pc7/Desktop/FlightSchedule/backend/src/main/java/com/adel/flightschedule/userprofile/repository/UserProfileDaoRepository.java
+/home/pc7/Desktop/FlightSchedule/backend/src/main/java/com/adel/flightschedule/common/controller/ErrorHandlingController.java
 /home/pc7/Desktop/FlightSchedule/backend/src/main/java/com/adel/flightschedule/utils/ValidatorUtil.java
 /home/pc7/Desktop/FlightSchedule/backend/src/main/java/com/adel/flightschedule/common/config/CommonBeanConfig.java
 /home/pc7/Desktop/FlightSchedule/backend/src/main/java/com/adel/flightschedule/security/controller/AuthenticationController.java

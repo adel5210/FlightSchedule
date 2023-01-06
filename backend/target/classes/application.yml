@@ -2,6 +2,7 @@ server:
     error:
         whitelabel:
             enabled: false
+        path: /error
 #    port: 8081
 
 jasypt:
