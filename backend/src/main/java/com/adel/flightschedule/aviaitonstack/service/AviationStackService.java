@@ -7,5 +7,6 @@ public interface AviationStackService {
     Object getCities(final String additionalParams);
     Object getRoutes(final String additionalParams);
     Object getAirports(final String additionalParams);
+    Object getAirlines(final String additionalParams);
 
 }

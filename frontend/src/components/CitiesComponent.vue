@@ -49,7 +49,7 @@ export default {
   methods:{
     searchCities(){
       console.log(this.mainTableSearch)
-      let param = 'search='+this.mainTableSearch;
+      let param = this.mainTableSearch ? 'search='+this.mainTableSearch : null;
       aviationHttp.fetchCities(param).then(resp => {
         console.log(resp);
         this.mainTableData = resp.data.data;

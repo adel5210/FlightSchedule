@@ -89,6 +89,12 @@ public class AviationStackServiceImpl implements AviationStackService {
         return processGetRequest(url);
     }
 
+    @Override
+    public Object getAirlines(String additionalParams) {
+        final String url = fullUrl(AviationStackPath.AIRLINES.getPath(), this.accessKey, additionalParams);
+        return processGetRequest(url);
+    }
+
     private Object processGetRequest(final String url){
         return this.webClient.get()
                 .uri(url)

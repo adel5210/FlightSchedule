@@ -47,6 +47,12 @@ public class AviationStackController {
         log.info("Find airports "+additionalPath);
         return ResponseEntity.ok(aviationStackService.getAirports(additionalPath));
     }
+
+    @GetMapping("/airlines")
+    public ResponseEntity<Object> findAirlines(final String additionalPath) {
+        log.info("Find airlines "+additionalPath);
+        return ResponseEntity.ok(aviationStackService.getAirlines(additionalPath));
+    }
 }
 
 

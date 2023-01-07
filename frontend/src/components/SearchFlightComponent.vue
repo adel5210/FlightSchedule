@@ -50,7 +50,7 @@ export default {
   },
   methods:{
     searchFlights(){
-      let param = 'search='+this.mainTableSearch;
+      let param = this.mainTableSearch ? 'search='+this.mainTableSearch : null;
       aviationHttp.fetchFlights(param).then(resp => {
         console.log(resp);
         this.mainTableData = resp.data.data;

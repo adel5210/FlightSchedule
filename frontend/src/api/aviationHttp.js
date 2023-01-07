@@ -61,6 +61,15 @@ class AviationHttp {
         });
     }
 
+    fetchAirlines(param) {
+        return httpCommon.get(AVIA_API + "/airlines", {
+            headers: this.authHeader(),
+            params: {
+                additionalPath: param
+            }
+        });
+    }
+
 }
 
 export default new AviationHttp();
