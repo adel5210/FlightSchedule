@@ -42,6 +42,25 @@ class AviationHttp {
             }
         });
     }
+
+    fetchRoutes(param) {
+        return httpCommon.get(AVIA_API + "/routes", {
+            headers: this.authHeader(),
+            params: {
+                additionalPath: param
+            }
+        });
+    }
+
+    fetchAirports(param) {
+        return httpCommon.get(AVIA_API + "/airports", {
+            headers: this.authHeader(),
+            params: {
+                additionalPath: param
+            }
+        });
+    }
+
 }
 
 export default new AviationHttp();
