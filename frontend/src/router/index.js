@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import DashboardComponent from "@/components/DashboardComponent";
 import PageNotFound from "@/components/PageNotFound";
+import store from '@/store/index'
 
 Vue.use(VueRouter)
 
@@ -41,7 +42,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if (from.name === 'dashboard' && !this.$store.state.status.loggedIn) {
+    if (from.name === 'dashboard' && !store.state.status.loggedIn) {
         next({
             path: 'login',
             replace: true
