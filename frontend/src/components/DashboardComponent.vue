@@ -2,6 +2,7 @@
   <div>
     <div style="display: flex;">
       <div>
+        <v-overlay :value="overlay"/>
         <SidebarComponent
             @handleLogout="(m) => this.onLogout()"
             @sidePathSelection="(m) => this.changeContainedViewPath(m)"/>
@@ -52,7 +53,8 @@ export default {
       mainTableData: [],
       mainTableSearch: '',
       mainTableLoading: true,
-      currentSelectedPath: null
+      currentSelectedPath: null,
+      overlay: true
     }
   },
   methods: {
@@ -94,6 +96,7 @@ export default {
     if (!this.currentUser) {
       this.$router.replace('login')
     }
+    this.overlay = false;
   }
 }
 </script>
