@@ -30,17 +30,7 @@ const routes = [
         path: '/dashboard',
         alias: "/",
         name: 'dashboard',
-        component: DashboardComponent,
-        beforeEnter(to, from, next) {
-            if(to.name !== 'login' && !this.$store.state.status.loggedIn){
-                next({
-                    path: 'login',
-                    replace: true
-                })
-            }else{
-                next()
-            }
-        }
+        component: DashboardComponent
     },
 
 ]
@@ -49,5 +39,16 @@ const router = new VueRouter({
     mode: "history",
     routes
 })
+
+router.beforeEach((to, from, next) => {
+    if (from.name === 'dashboard' && !this.$store.state.status.loggedIn) {
+        next({
+            path: 'login',
+            replace: true
+        })
+    } else {
+        next()
+    }
+});
 
 export default router
