@@ -30,7 +30,17 @@ const routes = [
         path: '/dashboard',
         alias: "/",
         name: 'dashboard',
-        component: DashboardComponent
+        component: DashboardComponent,
+        beforeEnter(to, from, next) {
+            if(to.name !== 'login' && !this.$store.state.status.loggedIn){
+                next({
+                    path: 'login',
+                    replace: true
+                })
+            }else{
+                next()
+            }
+        }
     },
 
 ]
