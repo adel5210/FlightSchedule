@@ -43,11 +43,8 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     if (from.name === 'dashboard' && !store.state.status.loggedIn) {
-        next({
-            path: 'login',
-            replace: true
-        })
-    } else {
+        router.replace('login');
+    }else{
         next()
     }
 });
