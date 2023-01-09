@@ -45,7 +45,7 @@ router.beforeEach((to, from, next)=>{
     console.log(to);
     console.log(from);
     console.log(store.state.status.loggedIn);
-    if(from.name==='dashboard' && !store.state.status.loggedIn){
+    if(to.name==='dashboard' && !store.state.status.loggedIn){
         next("/login")
     }else{
         next()
