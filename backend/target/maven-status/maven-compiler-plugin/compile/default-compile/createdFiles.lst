@@ -15,7 +15,6 @@ com/adel/flightschedule/security/model/AuthToken.class
 com/adel/flightschedule/security/controller/AuthenticationController.class
 com/adel/flightschedule/userprofile/model/UserProfileDao$UserProfileDaoBuilder.class
 com/adel/flightschedule/userprofile/service/OTPService.class
-com/adel/flightschedule/common/config/NoHandlerFoundConfig.class
 com/adel/flightschedule/userprofile/service/EmailServiceImpl.class
 com/adel/flightschedule/userprofile/service/EmailService.class
 com/adel/flightschedule/utils/ValidatorUtil.class
@@ -27,7 +26,6 @@ com/adel/flightschedule/security/model/UserDetailsImpl.class
 com/adel/flightschedule/aviaitonstack/service/AviationStackService.class
 com/adel/flightschedule/aviaitonstack/controller/AviationStackController.class
 com/adel/flightschedule/common/model/ErrorResponse$ErrorResponseBuilder.class
-com/adel/flightschedule/common/controller/GlobalControllerAdvisor.class
 com/adel/flightschedule/aviaitonstack/service/AviationStackServiceImpl.class
 com/adel/flightschedule/userprofile/service/UserProfileServiceImpl.class
 com/adel/flightschedule/userprofile/dto/UserProfileDto$UserProfileDtoBuilder.class
