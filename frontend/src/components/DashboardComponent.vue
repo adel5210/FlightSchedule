@@ -93,9 +93,9 @@ export default {
     }
   },
   mounted() {
-    if (!this.currentUser) {
-      this.$router.replace('login')
-    }
+    // if (!this.currentUser) {
+    //   this.$router.replace('login')
+    // }
     this.overlay = false;
   }
 }
