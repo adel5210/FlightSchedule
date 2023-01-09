@@ -15,19 +15,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ErrorHandlingController implements ErrorController {
 
     @RequestMapping("/error")
-    public ResponseEntity<String> handleError(final HttpServletRequest request){
-        final Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-
-        if(null!=status){
-            final Integer statusCode = Integer.valueOf(status.toString());
-            if(statusCode.equals(HttpStatus.NOT_FOUND.value())){
-                return new ResponseEntity<>("Not Found", HttpStatusCode.valueOf(statusCode));
-            }else if(statusCode.equals(HttpStatus.INTERNAL_SERVER_ERROR.value())){
-                return new ResponseEntity<>("Internal error", HttpStatusCode.valueOf(statusCode));
-            }
-        }
-
-        return new ResponseEntity<>("Unknown", HttpStatusCode.valueOf(404));
+    public String handleError(final HttpServletRequest request){
+        return "forward:/";
+//        final Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+//
+//        if(null!=status){
+//            final Integer statusCode = Integer.valueOf(status.toString());
+//            if(statusCode.equals(HttpStatus.NOT_FOUND.value())){
+//                return new ResponseEntity<>("Not Found", HttpStatusCode.valueOf(statusCode));
+//            }else if(statusCode.equals(HttpStatus.INTERNAL_SERVER_ERROR.value())){
+//                return new ResponseEntity<>("Internal error", HttpStatusCode.valueOf(statusCode));
+//            }
+//        }
+//
+//        return new ResponseEntity<>("Unknown", HttpStatusCode.valueOf(404));
     }
+
+
 
 }

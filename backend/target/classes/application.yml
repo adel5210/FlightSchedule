@@ -27,6 +27,13 @@ spring:
                     auth: true
                     starttls:
                         enable: true
+    mvc:
+        throw-exception-if-no-handler-found: true
+        static-path-pattern: /static/**
+    web:
+        resources:
+            add-mappings: false
+            static-locations: classpath:static/
 
 aviationstack:
     apikey: 4495c9324a59d64375c9c978de361de9

@@ -25,6 +25,7 @@
 /home/pc7/Desktop/FlightSchedule/backend/src/main/java/com/adel/flightschedule/FlightscheduleApplication.java
 /home/pc7/Desktop/FlightSchedule/backend/src/main/java/com/adel/flightschedule/userprofile/dto/UserProfileDto.java
 /home/pc7/Desktop/FlightSchedule/backend/src/main/java/com/adel/flightschedule/security/service/JwtUserDetailService.java
+/home/pc7/Desktop/FlightSchedule/backend/src/main/java/com/adel/flightschedule/common/config/NoHandlerFoundConfig.java
 /home/pc7/Desktop/FlightSchedule/backend/src/main/java/com/adel/flightschedule/security/config/JwtPropertiesConfig.java
 /home/pc7/Desktop/FlightSchedule/backend/src/main/java/com/adel/flightschedule/userprofile/service/OTPServiceImpl.java
 /home/pc7/Desktop/FlightSchedule/backend/src/main/java/com/adel/flightschedule/userprofile/service/UserProfileService.java

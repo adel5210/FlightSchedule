@@ -15,6 +15,7 @@ com/adel/flightschedule/security/model/AuthToken.class
 com/adel/flightschedule/security/controller/AuthenticationController.class
 com/adel/flightschedule/userprofile/model/UserProfileDao$UserProfileDaoBuilder.class
 com/adel/flightschedule/userprofile/service/OTPService.class
+com/adel/flightschedule/common/config/NoHandlerFoundConfig.class
 com/adel/flightschedule/userprofile/service/EmailServiceImpl.class
 com/adel/flightschedule/userprofile/service/EmailService.class
 com/adel/flightschedule/utils/ValidatorUtil.class
