@@ -4,12 +4,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-@ControllerAdvice
+//@ControllerAdvice
 public class NoHandlerFoundConfig {
 
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public String renderDefaultPage(NoHandlerFoundException e){
-        return "classpath:static/index.html";
-    }
+//    @ExceptionHandler(NoHandlerFoundException.class)
+//    public String renderDefaultPage(NoHandlerFoundException e){
+//        return "classpath:static/index.html";
+//    }
 
 }
