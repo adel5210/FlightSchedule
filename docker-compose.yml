@@ -8,7 +8,6 @@ services:
         image: flight-schedule:latest
         ports:
             - 8080:8080
-            - 8443:8443
         networks:
             - flight-schedule-network
 networks:

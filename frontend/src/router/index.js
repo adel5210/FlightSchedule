@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import DashboardComponent from "@/components/DashboardComponent";
 import PageNotFound from "@/components/PageNotFound";
+import store from "@/store/index"
 
 Vue.use(VueRouter)
 
@@ -38,6 +39,17 @@ const routes = [
 const router = new VueRouter({
     mode: "history",
     routes
+})
+
+router.beforeEach((to, from, next)=>{
+    console.log(to);
+    console.log(from);
+    console.log(store);
+    if(from.name==='dashboard' && !store.state.status.loggedIn){
+        next("/login")
+    }else{
+        next()
+    }
 })
 
 export default router
